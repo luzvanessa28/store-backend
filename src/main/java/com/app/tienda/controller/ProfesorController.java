@@ -51,7 +51,7 @@ public class ProfesorController {
   }
 
   @PutMapping("/{id}")
-  private  ResponseEntity<String> update(@PathVariable Long id,
+  private ResponseEntity<String> update(@PathVariable Long id,
                                          @RequestBody Profesor profesor
   ) {
     log.info("Update");
