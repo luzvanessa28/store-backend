@@ -1,99 +1,105 @@
 package com.app.tienda.controller;
 
-import com.app.tienda.model.request.Alumno;
+import com.app.tienda.model.request.AlumnoRequest;
+import com.app.tienda.model.request.PersonRequest;
+import com.app.tienda.model.response.AlumnoResponse;
+import com.app.tienda.service.IAlumnoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Optional;
+import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/alumnos")
+@RequestMapping("/api/v1/alumns")
 public class AlumnoController {
-
   private final Logger log = LoggerFactory.getLogger(this.getClass());
-  private ArrayList<Alumno> listaAlumnos = new ArrayList<>();
 
-  @GetMapping //consultar todos los registros
-  public ArrayList<Alumno> getAll() {
-    log.info("Entrando a la función lista");
-    return listaAlumnos;
+  @Autowired
+  private IAlumnoService alumnoService;
+
+  @GetMapping
+  public List<AlumnoResponse> getAllAlumns() {
+    log.info("Metodo getAlumns");
+    return alumnoService.findAllAlumns();
   }
 
-  @GetMapping("/{id}") //consultar un solo registro por su id
-  private ResponseEntity<Alumno> getById(@PathVariable Integer id) {
-    log.info("Entrando a la función getById");
-    log.info("Parametro recibido {}", id);
+  @PostMapping
+  public ResponseEntity<?> create(
+    @Valid @RequestBody AlumnoRequest alumn,
+    BindingResult bindingResult) {
+    log.info("Creating alumn: {}", alumn);
 
-    Alumno alumnoEncontrado = listaAlumnos.stream()
-      .filter(alumno -> alumno.getId() == id) // [..].findFirst()
-      .findFirst()
-      .orElse(null);
+    if (bindingResult.hasErrors()) {
+      log.info("Se ha producido un error: {}", bindingResult.hasErrors());
+      List<String> errors = bindingResult.getFieldErrors().stream()
+        .map(error -> error.getField() + ": " + error.getDefaultMessage())
+        .collect(Collectors.toList());
 
-    if (alumnoEncontrado != null) { // Se ha encontrado un alumno
-      return new ResponseEntity<>(alumnoEncontrado, HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      return ResponseEntity.badRequest().body(errors);
     }
+
+    log.info("Updated alumn");
+    return ResponseEntity.status(HttpStatus.CREATED).body(alumnoService.saveAlumn(alumn));
   }
 
-  @PostMapping //agregrar un nuevo registro
-  private  ResponseEntity<String> save(@RequestBody Alumno alumno) { // @RequestBody representa el valor del cuerpo de la solicitud
-    log.info("Method save() ");
-    log.info("Mi parametro es: {}", alumno);
+  @GetMapping("/{id}")
+  public ResponseEntity<?> getById(@PathVariable Long id) {
+    log.info("Metodo getById: {}", id);
 
-    listaAlumnos.add(alumno);
-
-    return new ResponseEntity<>("Se ha agregado con exito el alumno", HttpStatus.CREATED);
+    return new ResponseEntity<>(alumnoService.getById(id),HttpStatus.OK);
   }
 
   @PutMapping("/{id}")
-  private ResponseEntity<String> update(@PathVariable Integer id, @RequestBody Alumno alumno) {
-    log.info("Metodo update");
-    log.info("Mi parametro es: {}", id);
-    log.info("Mi parametro es: {}", alumno);
+  public ResponseEntity<?> update(
+    @PathVariable Long id,
+    @Valid @RequestBody AlumnoRequest alumno,
+    BindingResult bindingResult
+  ) {
+    log.info("Mi metodo update: {}", alumno);
 
-    Optional<Alumno> alumnoOptional = listaAlumnos.stream()
-            .filter(alumn -> alumn.getId() == id)
-            .findFirst(); // findFirst - entrega el primer elemento encontrado del filter
+    if (bindingResult.hasErrors()) {
+      log.info("Se produjo un error: {}", bindingResult.hasErrors());
 
-    if (alumnoOptional.isPresent()) {
-      Alumno alumnoEncontrado = alumnoOptional.get();
+      List<String> errores= bindingResult.getFieldErrors().stream()
+        .map(error -> error.getField() + ":" + error.getDefaultMessage())
+        .collect(Collectors.toList());
 
-      alumnoEncontrado.setName(alumno.getName());
-      alumnoEncontrado.setLastName(alumno.getLastName());
-      alumnoEncontrado.setSecondLastName(alumno.getSecondLastName());
-      alumnoEncontrado.setAge(alumnoEncontrado.getAge());
-      alumnoEncontrado.setEmail(alumnoEncontrado.getEmail());
-      alumnoEncontrado.setPhone(alumnoEncontrado.getPhone());
-      // Actualizar otras propiedades según sea necesario
-      return ResponseEntity.ok("Se ha modificado con exito el alumno");
-    } else {
-      // Si no se encuentra el alumno, devolver un mensaje indicando que no se pudo actualizar
-      return ResponseEntity.status(HttpStatus.NOT_FOUND)
-              .body("No se encontró el alumno con ID: " + id + ". No se realizó ninguna actualización.");
+      return ResponseEntity.badRequest().body(errores);
     }
+
+    log.info("Alumno modificado correctamente");
+    return ResponseEntity.status(HttpStatus.OK).body(alumnoService.updateAlumn(id, alumno));
   }
 
-  @DeleteMapping("/{id}")
-  private ResponseEntity<String> delete(@PathVariable Integer id) {
-    log.info("Method delete() ");
-    log.info("Mi parametro es: {}", id);
 
-    boolean alumnoEliminado = listaAlumnos.removeIf(alumno -> alumno.getId() == id);
 
-    log.info("resultado: {}", alumnoEliminado);
 
-    if (alumnoEliminado) {
-      log.info("verdadero");
-      return ResponseEntity.noContent().build();
-    } else {
-      log.info("falso");
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró el alumno con ID: " + id);
-    }
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
