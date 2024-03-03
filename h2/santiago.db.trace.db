@@ -1,0 +1,307 @@
+2024-02-13 21:48:05 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM PERSONS \000d\000a\000d\000a\000d\000aINSERT [*]INTO PERSONS value (""25"", ""Santiago"", ""Marco"", ""Feria"")"
+Syntax error in SQL statement "SELECT * FROM PERSONS \000d\000a\000d\000a\000d\000aINSERT [*]INTO PERSONS value (""25"", ""Santiago"", ""Marco"", ""Feria"")"; SQL statement:
+SELECT * FROM PERSONS 
+
+
+INSERT INTO PERSONS value ("25", "Santiago", "Marco", "Feria") [42000-214]
+2024-02-13 21:48:18 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM PERSONS \000d\000a\000d\000a\000d\000aINSERT [*]INTO PERSONS values (""25"", ""Santiago"", ""Marco"", ""Feria"")"
+Syntax error in SQL statement "SELECT * FROM PERSONS \000d\000a\000d\000a\000d\000aINSERT [*]INTO PERSONS values (""25"", ""Santiago"", ""Marco"", ""Feria"")"; SQL statement:
+SELECT * FROM PERSONS 
+
+
+INSERT INTO PERSONS values ("25", "Santiago", "Marco", "Feria") [42000-214]
+2024-02-13 21:48:32 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM PERSONS \000d\000a\000d\000a\000d\000aINSERT [*]INTO PERSONS values (,""25"", ""Santiago"", ""Marco"", ""Feria"")"
+Syntax error in SQL statement "SELECT * FROM PERSONS \000d\000a\000d\000a\000d\000aINSERT [*]INTO PERSONS values (,""25"", ""Santiago"", ""Marco"", ""Feria"")"; SQL statement:
+SELECT * FROM PERSONS 
+
+
+INSERT INTO PERSONS values (,"25", "Santiago", "Marco", "Feria") [42000-214]
+2024-02-13 21:48:46 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM PERSONS \000d\000a\000d\000a\000d\000aINSERT [*]INTO PERSONS values (null,""25"", ""Santiago"", ""Marco"", ""Feria"")"
+Syntax error in SQL statement "SELECT * FROM PERSONS \000d\000a\000d\000a\000d\000aINSERT [*]INTO PERSONS values (null,""25"", ""Santiago"", ""Marco"", ""Feria"")"; SQL statement:
+SELECT * FROM PERSONS 
+
+
+INSERT INTO PERSONS values (null,"25", "Santiago", "Marco", "Feria") [42000-214]
+2024-02-13 21:48:57 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM PERSONS \000d\000a\000d\000a\000d\000aINSERT [*]INTO PERSONS values (undefined,""25"", ""Santiago"", ""Marco"", ""Feria"")"
+Syntax error in SQL statement "SELECT * FROM PERSONS \000d\000a\000d\000a\000d\000aINSERT [*]INTO PERSONS values (undefined,""25"", ""Santiago"", ""Marco"", ""Feria"")"; SQL statement:
+SELECT * FROM PERSONS 
+
+
+INSERT INTO PERSONS values (undefined,"25", "Santiago", "Marco", "Feria") [42000-214]
+2024-02-13 21:50:43 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM PERSONS \000d\000a\000d\000a\000d\000aINSERT [*]INTO PERSONS values ('25', 'Santiago', 'Marco', 'Feria')"
+Syntax error in SQL statement "SELECT * FROM PERSONS \000d\000a\000d\000a\000d\000aINSERT [*]INTO PERSONS values ('25', 'Santiago', 'Marco', 'Feria')"; SQL statement:
+SELECT * FROM PERSONS 
+
+
+INSERT INTO PERSONS values ('25', 'Santiago', 'Marco', 'Feria') [42000-214]
+2024-02-13 21:50:46 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: La cantidad de columnas no coincide
+Column count does not match; SQL statement:
+INSERT INTO PERSONS values ('25', 'Santiago', 'Marco', 'Feria') [21002-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.command.dml.Insert.doPrepare(Insert.java:295)
+	at org.h2.command.dml.DataChangeStatement.prepare(DataChangeStatement.java:37)
+	at org.h2.command.Parser.prepareCommand(Parser.java:575)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:631)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:554)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:237)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:223)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1339)
+	at org.h2.server.web.WebApp.query(WebApp.java:1137)
+	at org.h2.server.web.WebApp.query(WebApp.java:1113)
+	at org.h2.server.web.WebApp.process(WebApp.java:244)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:176)
+	at org.h2.server.web.WebServlet.doGet(WebServlet.java:129)
+	at org.h2.server.web.WebServlet.doPost(WebServlet.java:166)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:555)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:209)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:481)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:130)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+2024-02-13 21:51:16 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "INSERT INTO PERSONS values ([*], '25', 'Santiago', 'Marco', 'Feria')"; se esperaba "), DEFAULT, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "INSERT INTO PERSONS values ([*], '25', 'Santiago', 'Marco', 'Feria')"; expected "), DEFAULT, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+INSERT INTO PERSONS values (, '25', 'Santiago', 'Marco', 'Feria') [42001-214]
+2024-02-13 21:51:27 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM PERSONS \000d\000a\000d\000a\000d\000aINSERT [*]INTO PERSONS values (, '25', 'Santiago', 'Marco', 'Feria')"
+Syntax error in SQL statement "SELECT * FROM PERSONS \000d\000a\000d\000a\000d\000aINSERT [*]INTO PERSONS values (, '25', 'Santiago', 'Marco', 'Feria')"; SQL statement:
+SELECT * FROM PERSONS 
+
+
+INSERT INTO PERSONS values (, '25', 'Santiago', 'Marco', 'Feria') [42000-214]
+2024-02-13 21:51:45 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "INSERT INTO PERSONS values ([*], '25', 'Santiago', 'Marco', 'Feria')"; se esperaba "), DEFAULT, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "INSERT INTO PERSONS values ([*], '25', 'Santiago', 'Marco', 'Feria')"; expected "), DEFAULT, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+INSERT INTO PERSONS values (, '25', 'Santiago', 'Marco', 'Feria') [42001-214]
+2024-02-13 21:52:09 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Columna "UNDEFINED" no encontrada
+Column "UNDEFINED" not found; SQL statement:
+INSERT INTO PERSONS values (undefined, '25', 'Santiago', 'Marco', 'Feria') [42122-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:244)
+	at org.h2.expression.ExpressionColumn.optimizeOther(ExpressionColumn.java:226)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:213)
+	at org.h2.command.dml.Insert.doPrepare(Insert.java:300)
+	at org.h2.command.dml.DataChangeStatement.prepare(DataChangeStatement.java:37)
+	at org.h2.command.Parser.prepareCommand(Parser.java:575)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:631)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:554)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:237)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:223)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1339)
+	at org.h2.server.web.WebApp.query(WebApp.java:1137)
+	at org.h2.server.web.WebApp.query(WebApp.java:1113)
+	at org.h2.server.web.WebApp.process(WebApp.java:244)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:176)
+	at org.h2.server.web.WebServlet.doGet(WebServlet.java:129)
+	at org.h2.server.web.WebServlet.doPost(WebServlet.java:166)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:555)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:209)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:481)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:130)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+2024-02-18 14:32:58 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "select * from persons,[*]"; se esperaba "identifier"
+Syntax error in SQL statement "select * from persons,[*]"; expected "identifier"; SQL statement:
+select * from persons, [42001-214]
+2024-02-18 14:34:11 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "select * from persons\000d\000a\000d\000a\000d\000adelete [*]from persons where id=4"
+Syntax error in SQL statement "select * from persons\000d\000a\000d\000a\000d\000adelete [*]from persons where id=4"; SQL statement:
+select * from persons
+
+
+delete from persons where id=4 [42000-214]
+2024-02-18 18:27:39 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "PERSON" no encontrada
+Table "PERSON" not found; SQL statement:
+SELECT FROM PERSON WHERE ID=2 [42102-214]
+2024-02-18 18:27:41 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "PERSON" no encontrada
+Table "PERSON" not found; SQL statement:
+SELECT FROM PERSON WHERE ID=2 [42102-214]
+2024-02-18 18:45:17 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: La cantidad de columnas no coincide
+Column count does not match; SQL statement:
+insert into alumnos values(1, '10', 'tommy@gmail','Santiago', 'Tommy',  '559823
+7','Feria', 10) [21002-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.command.dml.Insert.doPrepare(Insert.java:295)
+	at org.h2.command.dml.DataChangeStatement.prepare(DataChangeStatement.java:37)
+	at org.h2.command.Parser.prepareCommand(Parser.java:575)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:631)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:554)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:237)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:223)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1339)
+	at org.h2.server.web.WebApp.query(WebApp.java:1137)
+	at org.h2.server.web.WebApp.query(WebApp.java:1113)
+	at org.h2.server.web.WebApp.process(WebApp.java:244)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:176)
+	at org.h2.server.web.WebServlet.doGet(WebServlet.java:129)
+	at org.h2.server.web.WebServlet.doPost(WebServlet.java:166)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:555)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:209)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:481)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:130)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+2024-02-18 18:45:44 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "insert into alumnos values(1, '10', 'tommy@gmail','Santiago', 'Tommy',  '559823\000d\000a7','Feria'[*]"; se esperaba "[, ::, AT, FORMAT, *, /, %, +, -, ||, NOT, IS, ILIKE, REGEXP, AND, OR, ,, )"
+Syntax error in SQL statement "insert into alumnos values(1, '10', 'tommy@gmail','Santiago', 'Tommy',  '559823\000d\000a7','Feria'[*]"; expected "[, ::, AT, FORMAT, *, /, %, +, -, ||, NOT, IS, ILIKE, REGEXP, AND, OR, ,, )"; SQL statement:
+insert into alumnos values(1, '10', 'tommy@gmail','Santiago', 'Tommy',  '559823
+7','Feria' [42001-214]
+2024-02-18 18:48:14 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM alumnos\000d\000a[*]SELECT * FROM alumnos WHERE ID=2\000d\000aSELECT * FROM alumnos WHERE ID=5\000d\000ainsert into alumnos values('', '10', 'tommy@gmail',' Santiago',  'Tommy',  '5598237', 'Feria')\000d\000aSELECT * FROM alumnos WHERE ID=4\000d\000aDELETE FROM alumnos WHERE id = 1"
+Syntax error in SQL statement "SELECT * FROM alumnos\000d\000a[*]SELECT * FROM alumnos WHERE ID=2\000d\000aSELECT * FROM alumnos WHERE ID=5\000d\000ainsert into alumnos values('', '10', 'tommy@gmail',' Santiago',  'Tommy',  '5598237', 'Feria')\000d\000aSELECT * FROM alumnos WHERE ID=4\000d\000aDELETE FROM alumnos WHERE id = 1"; SQL statement:
+SELECT * FROM alumnos
+SELECT * FROM alumnos WHERE ID=2
+SELECT * FROM alumnos WHERE ID=5
+insert into alumnos values('', '10', 'tommy@gmail',' Santiago',  'Tommy',  '5598237', 'Feria')
+SELECT * FROM alumnos WHERE ID=4
+DELETE FROM alumnos WHERE id = 1 [42000-214]
+2024-02-18 18:48:16 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM alumnos\000d\000a[*]SELECT * FROM alumnos WHERE ID=2\000d\000aSELECT * FROM alumnos WHERE ID=5\000d\000ainsert into alumnos values('', '10', 'tommy@gmail',' Santiago',  'Tommy',  '5598237', 'Feria')\000d\000aSELECT * FROM alumnos WHERE ID=4\000d\000aDELETE FROM alumnos WHERE id = 1"
+Syntax error in SQL statement "SELECT * FROM alumnos\000d\000a[*]SELECT * FROM alumnos WHERE ID=2\000d\000aSELECT * FROM alumnos WHERE ID=5\000d\000ainsert into alumnos values('', '10', 'tommy@gmail',' Santiago',  'Tommy',  '5598237', 'Feria')\000d\000aSELECT * FROM alumnos WHERE ID=4\000d\000aDELETE FROM alumnos WHERE id = 1"; SQL statement:
+SELECT * FROM alumnos
+SELECT * FROM alumnos WHERE ID=2
+SELECT * FROM alumnos WHERE ID=5
+insert into alumnos values('', '10', 'tommy@gmail',' Santiago',  'Tommy',  '5598237', 'Feria')
+SELECT * FROM alumnos WHERE ID=4
+DELETE FROM alumnos WHERE id = 1 [42000-214]
+2024-02-18 18:48:40 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLDataException: Conversión de datos fallida, convirtiendo "'' (ALUMNOS: ""ID"" BIGINT GENERATED BY DEFAULT AS IDENTITY(START WITH 1) NOT NULL)"
+Data conversion error converting "'' (ALUMNOS: ""ID"" BIGINT GENERATED BY DEFAULT AS IDENTITY(START WITH 1) NOT NULL)"; SQL statement:
+insert into alumnos values('', '10', 'tommy@gmail',' Santiago',  'Tommy',  '5598237', 'Feria') [22018-214]
+2024-02-18 19:36:27 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM GATOS \000d\000ainsert [*]into GATOS  values(1, '2', 'siames',' Tito')"
+Syntax error in SQL statement "SELECT * FROM GATOS \000d\000ainsert [*]into GATOS  values(1, '2', 'siames',' Tito')"; SQL statement:
+SELECT * FROM GATOS 
+insert into GATOS  values(1, '2', 'siames',' Tito') [42000-214]
+2024-02-18 19:57:33 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM POLICIAS\000d\000ainsert [*]into alumnos values(1, '28', 'mario@gmail',' Abel',  'Mario',  '55138963942', 'Abel')"
+Syntax error in SQL statement "SELECT * FROM POLICIAS\000d\000ainsert [*]into alumnos values(1, '28', 'mario@gmail',' Abel',  'Mario',  '55138963942', 'Abel')"; SQL statement:
+SELECT * FROM POLICIAS
+insert into alumnos values(1, '28', 'mario@gmail',' Abel',  'Mario',  '55138963942', 'Abel') [42000-214]
+2024-02-18 19:58:02 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM POLICIAS\000d\000ainsert [*]into POLICIAS values(1, '28', 'mario@gmail',' Abel',  'Mario',  '55138963942', 'Abel')"
+Syntax error in SQL statement "SELECT * FROM POLICIAS\000d\000ainsert [*]into POLICIAS values(1, '28', 'mario@gmail',' Abel',  'Mario',  '55138963942', 'Abel')"; SQL statement:
+SELECT * FROM POLICIAS
+insert into POLICIAS values(1, '28', 'mario@gmail',' Abel',  'Mario',  '55138963942', 'Abel') [42000-214]
+2024-02-19 20:51:03 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "select [*]¨from persons"
+Syntax error in SQL statement "select [*]¨from persons"; SQL statement:
+select ¨from persons [42000-214]
+2024-02-25 15:12:22 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM ALUMNOS \000d\000adelete [*]from ALUMNOS"
+Syntax error in SQL statement "SELECT * FROM ALUMNOS \000d\000adelete [*]from ALUMNOS"; SQL statement:
+SELECT * FROM ALUMNOS 
+delete from ALUMNOS [42000-214]
