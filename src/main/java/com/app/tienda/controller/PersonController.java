@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/person")
+@RequestMapping("/api/v1/persons")
 public class PersonController {
   private final Logger log = LoggerFactory.getLogger(this.getClass());
 
