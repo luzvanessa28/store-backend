@@ -110,7 +110,7 @@ public class PersonServiceImpl implements IPersonService {
       }
     } catch (DataAccessException e) {
       log.error("Se produjo un error al eliminar la persona", e.getMessage());
-      throw new InternalServerException("Se produjo al eliminar la persona", e);
+      throw new InternalServerException("Se produjo un error al eliminar a la persona", e);
     }
   }
 
