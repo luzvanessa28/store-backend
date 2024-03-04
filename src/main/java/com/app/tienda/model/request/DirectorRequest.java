@@ -1,14 +1,13 @@
 package com.app.tienda.model.request;
 
-public class Director {
+public class DirectorRequest {
   private Long id;
   private String name;
   private String lastName;
   private String secondLastName;
-  private Integer age;
+  private String age;
   private String email;
   private String phone;
-  private Domicilio address;
 
   public Long getId() {
     return id;
@@ -42,11 +41,11 @@ public class Director {
     this.secondLastName = secondLastName;
   }
 
-  public Integer getAge() {
+  public String getAge() {
     return age;
   }
 
-  public void setAge(Integer age) {
+  public void setAge(String age) {
     this.age = age;
   }
 
@@ -66,13 +65,6 @@ public class Director {
     this.phone = phone;
   }
 
-  public Domicilio getAddress() {
-    return address;
-  }
-
-  public void setAddress(Domicilio address) {
-    this.address = address;
-  }
 
   @Override
   public String toString() {
@@ -84,7 +76,6 @@ public class Director {
       ", age=" + age +
       ", email='" + email + '\'' +
       ", phone='" + phone + '\'' +
-      ", address=" + address +
       '}';
   }
 }
