@@ -27,10 +27,8 @@ public class AlumnoServiceImpl implements IAlumnoService {
   private ModelMapper modelMapper;
   @Override
   public List<AlumnoResponse> findAllAlumns() {
-    log.info("Metodo findAllAlumns");
 
     List<AlumnoEntity> alumnos = alumnoRepository.findAll();
-    log.info("variable alumnos {}", alumnos);
 
     return alumnos.stream()
       .map(alumnoEntity -> modelMapper.map(alumnoEntity, AlumnoResponse.class))
@@ -39,70 +37,67 @@ public class AlumnoServiceImpl implements IAlumnoService {
 
   @Override
   public AlumnoResponse saveAlumn(AlumnoRequest alumnoRequest) {
-    log.info("AlumnoServiceImpl - saveAlumn: {}", alumnoRequest);
 
     try {
-      log.info("Estoy dentro de try");
       AlumnoEntity alumnoEntity= modelMapper.map(alumnoRequest, AlumnoEntity.class);
-      log.info("AlumnoEntity: {}", alumnoEntity);
 
       AlumnoEntity saveAlumn = alumnoRepository.save(alumnoEntity);
-      log.info("saveAlumno: {}", saveAlumn);
 
       return modelMapper.map(saveAlumn, AlumnoResponse.class);
 
     } catch (Exception e) {
-      log.info("Estoy dentro de catch");
-      log.error("Se produjo un error al guardar la persona", e.getMessage());
-      throw new InternalServerException("Se produjo un error al guardar la persona", e);
+      throw new InternalServerException("Se produjo un error al guardar al alumno", e);
     }
   }
 
   @Override
   public AlumnoResponse getById(Long id) {
-    log.info("Metodo getById en AlumnoServiceImpl {}", id);
 
     Optional<AlumnoEntity> alumnoOptional = alumnoRepository.findById(id);
-    log.info("alumnoOptional: {}", alumnoOptional);
 
     return alumnoOptional
       .map(alumnoEntity -> modelMapper.map(alumnoEntity, AlumnoResponse.class))
-      .orElseThrow(() -> new ResourceNotFoundException("La persona no ha sido encontrada"));
+      .orElseThrow(() -> new ResourceNotFoundException("El alumno no ha sido encontrado"));
   }
 
   @Override
   public AlumnoResponse updateAlumn(Long id, AlumnoRequest alumnoRequest) {
-    log.info("id: {}", id);
-    log.info("Mi metodo updateAlumn: {}", alumnoRequest);
 
     try {
       Optional<AlumnoEntity> alumnOptional = alumnoRepository.findById(id);
-      log.info("Alumno: {}", alumnOptional);
 
       if (alumnOptional.isPresent()) {
         AlumnoEntity alumnoEntity = alumnOptional.get();
         modelMapper.map(alumnoRequest, alumnoEntity);
-        log.info("Alumno entity{}", alumnoEntity);
 
-        //return null;
+        AlumnoEntity savedAlumno = alumnoRepository.save(alumnoEntity);
+        return modelMapper.map(savedAlumno, AlumnoResponse.class);
       } else {
-        log.info("else");
+        throw new ResourceNotFoundException("El alumno no ha sido encontrada");
       }
     } catch (DataAccessException e) {
-      log.info("catch");
+      log.error("Se produjo un error al guardar al alumno", e.getMessage());
+      throw new InternalServerException("Se produjo un error al guardar al alumno", e);
     }
-    return null;
   }
 
+  @Override
+  public void deleteAlumn(Long id) {
 
+    try {
+      Optional<AlumnoEntity> alumnoOptional = alumnoRepository.findById(id);
 
+      if (alumnoOptional.isPresent()) {
+        alumnoRepository.deleteById(id);
+      } else {
+        throw new ResourceNotFoundException("El ID no existe");
+      }
 
-
-
-
-
-
-
+    } catch (DataAccessException e) {
+      log.error("Se produjo un error al eliminar el alumno", e.getMessage());
+      throw new InternalServerException("Se produjo un error al eliminar al alumno", e);
+    }
+  }
 
 
 }

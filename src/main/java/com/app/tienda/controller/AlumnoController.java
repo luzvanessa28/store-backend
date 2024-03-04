@@ -26,7 +26,6 @@ public class AlumnoController {
 
   @GetMapping
   public List<AlumnoResponse> getAllAlumns() {
-    log.info("Metodo getAlumns");
     return alumnoService.findAllAlumns();
   }
 
@@ -34,10 +33,8 @@ public class AlumnoController {
   public ResponseEntity<?> create(
     @Valid @RequestBody AlumnoRequest alumn,
     BindingResult bindingResult) {
-    log.info("Creating alumn: {}", alumn);
 
     if (bindingResult.hasErrors()) {
-      log.info("Se ha producido un error: {}", bindingResult.hasErrors());
       List<String> errors = bindingResult.getFieldErrors().stream()
         .map(error -> error.getField() + ": " + error.getDefaultMessage())
         .collect(Collectors.toList());
@@ -45,13 +42,11 @@ public class AlumnoController {
       return ResponseEntity.badRequest().body(errors);
     }
 
-    log.info("Updated alumn");
     return ResponseEntity.status(HttpStatus.CREATED).body(alumnoService.saveAlumn(alumn));
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<?> getById(@PathVariable Long id) {
-    log.info("Metodo getById: {}", id);
 
     return new ResponseEntity<>(alumnoService.getById(id),HttpStatus.OK);
   }
@@ -62,10 +57,8 @@ public class AlumnoController {
     @Valid @RequestBody AlumnoRequest alumno,
     BindingResult bindingResult
   ) {
-    log.info("Mi metodo update: {}", alumno);
 
     if (bindingResult.hasErrors()) {
-      log.info("Se produjo un error: {}", bindingResult.hasErrors());
 
       List<String> errores= bindingResult.getFieldErrors().stream()
         .map(error -> error.getField() + ":" + error.getDefaultMessage())
@@ -74,8 +67,14 @@ public class AlumnoController {
       return ResponseEntity.badRequest().body(errores);
     }
 
-    log.info("Alumno modificado correctamente");
     return ResponseEntity.status(HttpStatus.OK).body(alumnoService.updateAlumn(id, alumno));
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> delete(@PathVariable Long id) {
+
+    alumnoService.deleteAlumn(id);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
 

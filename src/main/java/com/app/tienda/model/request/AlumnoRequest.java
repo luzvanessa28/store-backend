@@ -24,7 +24,8 @@ public class AlumnoRequest {
   private String secondLastName;
 
   @NotNull
-  @Min(2)
+  @Min(value = 18, message = "El valor debe ser igual o mayor que 18")
+  @Max(value = 120, message = "El valor debe ser igual o menor que 120")
   private Integer age;
 
   @Email
