@@ -1,6 +1,5 @@
 package com.app.tienda.controller;
 
-import com.app.tienda.entity.PersonEntity;
 import com.app.tienda.model.request.PersonRequest;
 import com.app.tienda.model.response.PersonResponse;
 import com.app.tienda.service.IPersonService;
