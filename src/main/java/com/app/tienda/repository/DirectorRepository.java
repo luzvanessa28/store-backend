@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DirectorRepository extends JpaRepository<DirectorEntity> {
+public interface DirectorRepository extends JpaRepository<DirectorEntity, Long> {
 }
