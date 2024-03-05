@@ -1,7 +1,5 @@
 package com.app.tienda.entity;
 
-import com.app.tienda.model.request.Domicilio;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
