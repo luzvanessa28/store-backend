@@ -1,21 +1,12 @@
 package com.app.tienda.model.request;
 
 public class DirectorRequest {
-  private Long id;
   private String name;
   private String lastName;
   private String secondLastName;
   private String age;
   private String email;
   private String phone;
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
 
   public String getName() {
     return name;
@@ -69,7 +60,6 @@ public class DirectorRequest {
   @Override
   public String toString() {
     return "Director{" +
-      "id=" + id +
       ", name='" + name + '\'' +
       ", lastName='" + lastName + '\'' +
       ", secondLastName='" + secondLastName + '\'' +
