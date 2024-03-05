@@ -1,11 +1,29 @@
 package com.app.tienda.model.request;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class DirectorRequest {
+
+  @NotBlank(message = "El nombre no puede estar en blanco")
+  @Size(min = 3, max=20, message = "El nombre debe de contener de 3 a 20 caracteres")
   private String name;
+
+  @NotBlank(message = "El apellido no puede estar en blanco")
   private String lastName;
+
+  @NotBlank(message = "El apellido no puede estar en blanco")
   private String secondLastName;
+
+  @NotBlank(message = "La edad no puede estar en blanco")
+  @Size(min = 2, max = 3, message = "Solo se aceptan numeros")
   private String age;
+  @Email
   private String email;
+
+  @NotBlank(message = "Es requerido")
+  @Size(min = 10)
   private String phone;
 
   public String getName() {
