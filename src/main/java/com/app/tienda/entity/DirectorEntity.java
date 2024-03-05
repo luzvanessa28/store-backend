@@ -1,10 +1,13 @@
 package com.app.tienda.entity;
 
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "directores")
+@ToString
 public class DirectorEntity implements Serializable {
   private static final long serialVersionUID = 1L;
 
