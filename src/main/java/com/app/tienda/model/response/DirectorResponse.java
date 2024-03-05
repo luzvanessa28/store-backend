@@ -8,7 +8,7 @@ import lombok.Setter;
 public class DirectorResponse {
   private Long id;
   private String name;
-  private String firstName;
-  private String secondName;
-  private String age;
+  private String lastName;
+  private String secondLastName;
+  private String phone;
 }
