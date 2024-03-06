@@ -1,15 +1,19 @@
 package com.app.tienda.controller;
 
+import com.app.tienda.model.request.DirectorRequest;
 import com.app.tienda.model.response.DirectorResponse;
 import com.app.tienda.service.IDirectorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/director")
@@ -24,6 +28,27 @@ public class DirectorController {
     log.info("Entrando a la funcion getAll");
 
     return directorService.findAll();
+  }
+
+  @PostMapping
+  public ResponseEntity<?> create(
+    @Valid @RequestBody DirectorRequest director,
+    BindingResult bindingResult
+  ) {
+    log.info("parametro director: {}", director);
+    log.info("bindingResult: {}", bindingResult.hasErrors());
+
+    if (bindingResult.hasErrors()) {
+      log.info("se produjo un error {}", bindingResult.hasErrors());
+
+      List<String> errors = bindingResult.getFieldErrors().stream()
+        .map(error -> error.getField() + ": " + error.getDefaultMessage())
+        .collect(Collectors.toList());
+
+      return ResponseEntity.badRequest().body(errors);
+    }
+    log.info("director creado correctamente");
+    return ResponseEntity.status(HttpStatus.CREATED).body(directorService.save(director));
   }
 
 

@@ -17,7 +17,7 @@ public class DirectorEntity implements Serializable {
   private String name;
   private String lastName;
   private String secondLastName;
-  private Integer age;
+  private String age;
   private String email;
   private String phone;
 
@@ -53,11 +53,11 @@ public class DirectorEntity implements Serializable {
     this.secondLastName = secondLastName;
   }
 
-  public Integer getAge() {
+  public String getAge() {
     return age;
   }
 
-  public void setAge(Integer age) {
+  public void setAge(String age) {
     this.age = age;
   }
 
