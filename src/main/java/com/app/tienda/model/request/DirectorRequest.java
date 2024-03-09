@@ -17,7 +17,7 @@ public class DirectorRequest {
   private String secondLastName;
 
   @NotBlank(message = "La edad no puede estar en blanco")
-  @Size(min = 2, max = 3, message = "Solo se aceptan numeros")
+  @Size(min = 2, max = 3)
   private String age;
   @Email
   private String email;
