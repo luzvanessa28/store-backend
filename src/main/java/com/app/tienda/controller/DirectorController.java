@@ -51,6 +51,12 @@ public class DirectorController {
     return ResponseEntity.status(HttpStatus.CREATED).body(directorService.save(director));
   }
 
+  @GetMapping("/{id}")
+  public ResponseEntity<?> getById(@PathVariable Long id) {
+    log.info("director por id: {}", id);
+
+    return new ResponseEntity<>(directorService.getById(id),HttpStatus.OK);
+  }
 
 
 

@@ -8,4 +8,5 @@ import java.util.List;
 public interface IDirectorService {
   public List<DirectorResponse> findAll();
   public DirectorResponse save(DirectorRequest directorRequest);
+  public DirectorResponse getById(Long id);
 }
