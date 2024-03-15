@@ -25,8 +25,6 @@ public class DirectorController {
 
   @GetMapping
   public List<DirectorResponse> getAll() {
-    log.info("Entrando a la funcion getAll");
-
     return directorService.findAll();
   }
 
@@ -35,11 +33,8 @@ public class DirectorController {
     @Valid @RequestBody DirectorRequest director,
     BindingResult bindingResult
   ) {
-    log.info("parametro director: {}", director);
-    log.info("bindingResult: {}", bindingResult.hasErrors());
 
     if (bindingResult.hasErrors()) {
-      log.info("se produjo un error {}", bindingResult.hasErrors());
 
       List<String> errors = bindingResult.getFieldErrors().stream()
         .map(error -> error.getField() + ": " + error.getDefaultMessage())
@@ -47,14 +42,11 @@ public class DirectorController {
 
       return ResponseEntity.badRequest().body(errors);
     }
-    log.info("director creado correctamente");
     return ResponseEntity.status(HttpStatus.CREATED).body(directorService.save(director));
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<?> getById(@PathVariable Long id) {
-    log.info("director por id: {}", id);
-
     return new ResponseEntity<>(directorService.getById(id),HttpStatus.OK);
   }
 
@@ -64,22 +56,15 @@ public class DirectorController {
     @Valid @RequestBody DirectorRequest director,
     BindingResult bindingResult
   ) {
-    log.info("director por id: {}", id);
-    log.info("bindingResult: {}", bindingResult.hasErrors());
-
-
 
     if (bindingResult.hasErrors()) {
-      log.info("se produjo un error {}", bindingResult.hasErrors());
 
       List<String> errors = bindingResult.getFieldErrors().stream()
         .map(error -> error.getField() + ": " + error.getDefaultMessage())
         .collect(Collectors.toList());
-      log.info("errors: {}" , errors);
 
       return ResponseEntity.badRequest().body(errors);
     }
-    log.info("director actualizado correctamente");
     return ResponseEntity.status(HttpStatus.OK).body(directorService.updateDirector(id, director));
   }
 }
