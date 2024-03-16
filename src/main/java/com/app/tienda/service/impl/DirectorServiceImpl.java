@@ -108,7 +108,7 @@ public class DirectorServiceImpl implements IDirectorService {
       } else {
         throw new ResourceNotFoundException("El director no ha sido encontrado");
       }
-    } catch (Exception e) {
+    } catch (DataAccessException e) {
       log.error("Se produjo un error al eliminar el director: {}", e.getMessage());
       throw new InternalServerException("El director no ha sido encontrado", e);
     }
