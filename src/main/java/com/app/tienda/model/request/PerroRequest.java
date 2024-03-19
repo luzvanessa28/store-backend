@@ -23,4 +23,13 @@ public class PerroRequest {
   public String getBreed() {
     return breed;
   }
+
+  @Override
+  public String toString() {
+    return "PerroRequest{" +
+      "name='" + name + '\'' +
+      ", age=" + age +
+      ", breed='" + breed + '\'' +
+      '}';
+  }
 }
