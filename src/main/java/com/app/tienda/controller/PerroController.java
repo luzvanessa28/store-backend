@@ -25,7 +25,6 @@ public class PerroController {
 
   @GetMapping
   public List<PerroResponse> getAll() {
-    log.info("Entrando a la funcion getAll");
 
     return perroService.findAll();
   }
@@ -45,5 +44,17 @@ public class PerroController {
     }
 
     return ResponseEntity.status(HttpStatus.CREATED).body(perroService.save(perro));
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<?> update(
+    @PathVariable Long id,
+    @Valid @RequestBody PerroRequest perro,
+    BindingResult bindingResult
+  ) {
+
+    log.info("metodo putmapping: {}", id, perro);
+
+   return null;
   }
 }

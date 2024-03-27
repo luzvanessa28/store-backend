@@ -26,10 +26,8 @@ public class PerroServiceImpl implements IPerroService {
 
   @Override
   public List<PerroResponse> findAll() {
-    log.info("Mi funcion findAll");
 
    List<PerroEntity> perros = perroRepository.findAll();
-   log.info("perros: {}", perros);
 
    return perros.stream()
      .map(perroEntity -> modelMapper.map(perroEntity, PerroResponse.class))
