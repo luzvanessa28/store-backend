@@ -35,10 +35,8 @@ public class PerroController {
     @Valid @RequestBody PerroRequest perro,
     BindingResult bindingResult
   ) {
-    log.info("Controller Perro");
 
     if (bindingResult.hasErrors()) {
-      log.info("Se produjo un error", bindingResult.hasErrors());
       List<String> errors = bindingResult.getFieldErrors().stream()
         .map(error -> error.getField() + ": " + error.getDefaultMessage())
         .collect(Collectors.toList());
@@ -46,7 +44,6 @@ public class PerroController {
       return ResponseEntity.badRequest().body(errors);
     }
 
-    log.info("Created person");
     return ResponseEntity.status(HttpStatus.CREATED).body(perroService.save(perro));
   }
 }

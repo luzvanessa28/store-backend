@@ -31,24 +31,19 @@ public class PerroServiceImpl implements IPerroService {
    List<PerroEntity> perros = perroRepository.findAll();
    log.info("perros: {}", perros);
 
-   List<PerroResponse> retorno = perros.stream()
+   return perros.stream()
      .map(perroEntity -> modelMapper.map(perroEntity, PerroResponse.class))
      .collect(Collectors.toList());
-
-   log.info("impresion retorno: {}", retorno);
-   return null;
   }
 
   @Override
   public PerroResponse save(PerroRequest perroRequest) {
-    log.info("Mi metodo save implementacion: {}", perroRequest);
 
     try {
       PerroEntity perroEntity = modelMapper.map(perroRequest, PerroEntity.class);
-      log.info("perroEntity: {}", perroEntity);
 
       PerroEntity save = perroRepository.save(perroEntity);
-      log.info("save: {}", save);
+
       return modelMapper.map(perroEntity, PerroResponse.class);
 
     } catch (Exception e) {
