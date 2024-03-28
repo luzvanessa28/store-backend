@@ -8,4 +8,5 @@ import java.util.List;
 public interface IPerroService {
   public List<PerroResponse> findAll();
   public PerroResponse save(PerroRequest perroRequest);
+  public PerroResponse getById(Long id);
 }

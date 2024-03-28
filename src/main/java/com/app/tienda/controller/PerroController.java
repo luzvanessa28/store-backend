@@ -46,15 +46,10 @@ public class PerroController {
     return ResponseEntity.status(HttpStatus.CREATED).body(perroService.save(perro));
   }
 
-  @PutMapping("/{id}")
-  public ResponseEntity<?> update(
-    @PathVariable Long id,
-    @Valid @RequestBody PerroRequest perro,
-    BindingResult bindingResult
-  ) {
+  @GetMapping("/{id}")
+  public ResponseEntity<?> getById(@PathVariable Long id) {
 
-    log.info("metodo putmapping: {}", id, perro);
-
-   return null;
+    log.info("metodo getById controller");
+    return new ResponseEntity<>(perroService.getById(id), HttpStatus.OK);
   }
 }
