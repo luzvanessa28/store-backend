@@ -1,10 +1,18 @@
 package com.app.tienda.model.response;
 
 public class PerroResponse {
+  private Long id;
   private String name;
   private Integer age;
   private String breed;
+  
+  public Long getId() {
+    return id;
+  }
 
+  public void setId(Long id) {
+    this.id = id;
+  }
   public String getName() {
     return name;
   }
@@ -28,4 +36,6 @@ public class PerroResponse {
   public void setBreed(String breed) {
     this.breed = breed;
   }
+
+
 }
