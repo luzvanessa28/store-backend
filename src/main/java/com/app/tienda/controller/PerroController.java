@@ -49,7 +49,6 @@ public class PerroController {
   @GetMapping("/{id}")
   public ResponseEntity<?> getById(@PathVariable Long id) {
 
-    log.info("metodo getById controller");
     return new ResponseEntity<>(perroService.getById(id), HttpStatus.OK);
   }
 }
