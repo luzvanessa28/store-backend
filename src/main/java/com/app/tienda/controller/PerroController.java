@@ -1,5 +1,6 @@
 package com.app.tienda.controller;
 
+import com.app.tienda.entity.PerroEntity;
 import com.app.tienda.model.request.PerroRequest;
 import com.app.tienda.model.response.PerroResponse;
 import com.app.tienda.service.IPerroService;
@@ -50,5 +51,24 @@ public class PerroController {
   public ResponseEntity<?> getById(@PathVariable Long id) {
 
     return new ResponseEntity<>(perroService.getById(id), HttpStatus.OK);
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<?> update(
+    @PathVariable Long id,
+    @Valid @RequestBody PerroRequest perro,
+    BindingResult bindingResult
+  ) {
+
+    if (bindingResult.hasErrors()) {
+
+      List <String> errors = bindingResult.getFieldErrors().stream()
+        .map(error -> error.getField() + ":" + error.getDefaultMessage())
+        .collect(Collectors.toList());
+
+      return ResponseEntity.badRequest().body(errors);
+    }
+
+    return ResponseEntity.status(HttpStatus.OK).body(perroService.updatePerro(id, perro));
   }
 }

@@ -1,5 +1,6 @@
 package com.app.tienda.service.impl;
 
+import com.app.tienda.constant.Message;
 import com.app.tienda.entity.PerroEntity;
 import com.app.tienda.exception.InternalServerException;
 import com.app.tienda.exception.ResourceNotFoundException;
@@ -11,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,7 +49,7 @@ public class PerroServiceImpl implements IPerroService {
 
     } catch (Exception e) {
       log.error("Se produjo un error al guardar el perro", e.getMessage());
-      throw new InternalServerException("Se produjo un error al guardar el perro", e);
+      throw new InternalServerException(Message.SAVE_ERROR + "el perro", e);
     }
   }
 
@@ -58,7 +60,30 @@ public class PerroServiceImpl implements IPerroService {
 
     return perroOptional
       .map(personEntity -> modelMapper.map(personEntity, PerroResponse.class))
-      .orElseThrow(() -> new ResourceNotFoundException("El perro no ha sido encontrado"));
+      .orElseThrow(() -> new ResourceNotFoundException(Message.ID_NOT_FOUND));
+  }
+
+  @Override
+  public PerroResponse updatePerro(Long id, PerroRequest perroRequest) {
+
+    try {
+      Optional<PerroEntity> perroOptional = perroRepository.findById(id);
+
+      if (perroOptional.isPresent()) {
+        PerroEntity perroEntity = perroOptional.get();
+        modelMapper.map(perroRequest, perroEntity);
+
+        PerroEntity save = perroRepository.save(perroEntity);
+
+        return modelMapper.map(save, PerroResponse.class);
+      } else {
+        throw new ResourceNotFoundException(Message.ID_NOT_FOUND);
+      }
+
+    } catch (DataAccessException e) {
+      log.error("Se produjo un error al actualizar el perro", e.getMessage());
+      throw new InternalServerException(Message.UPDATE_ERROR + "el perro", e);
+    }
   }
 
 
