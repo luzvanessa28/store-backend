@@ -29,10 +29,8 @@ public class DirectorServiceImpl implements IDirectorService {
 
   @Override
   public List<DirectorResponse> findAll() {
-    log.info("FindAll en serviceImpl");
 
     List<DirectorEntity> directors = directorRepository.findAll();
-    log.info("directors: {}", directors);
 
     return directors.stream()
       .map(directorEntity -> modelMapper.map(directorEntity, DirectorResponse.class))
@@ -41,14 +39,11 @@ public class DirectorServiceImpl implements IDirectorService {
 
   @Override
   public DirectorResponse save(DirectorRequest directorRequest) {
-    log.info("Save en serviceImpl {}", directorRequest);
 
     try {
       DirectorEntity directorEntity = modelMapper.map(directorRequest, DirectorEntity.class);
-      log.info("directorEntity: {}", directorEntity);
 
       DirectorEntity saved = directorRepository.save(directorEntity);
-      log.info("save: {}", saved);
 
       return modelMapper.map(saved, DirectorResponse.class);
     } catch (Exception e) {
@@ -60,10 +55,8 @@ public class DirectorServiceImpl implements IDirectorService {
 
   @Override
   public DirectorResponse getById(Long id) {
-    log.info("getById en serviceImpl: {}", id);
 
     Optional<DirectorEntity> directorOptional = directorRepository.findById(id);
-    log.info("optional: {}", directorOptional);
 
     return directorOptional
       .map(directorEntity -> modelMapper.map(directorEntity, DirectorResponse.class))
@@ -72,21 +65,16 @@ public class DirectorServiceImpl implements IDirectorService {
 
   @Override
   public DirectorResponse updateDirector(Long id, DirectorRequest directorRequest) {
-    log.info("updateDirector: {}", directorRequest);
-
 
     try {
       Optional<DirectorEntity> directorOptional = directorRepository.findById(id);
-      log.info("directorOptional: {}", directorOptional);
 
       if (directorOptional.isPresent()) {
         DirectorEntity directorEntity = directorOptional.get();
         modelMapper.map(directorRequest, directorEntity);
-        log.info("directorEntity: {}", directorEntity);
 
         DirectorEntity saved = directorRepository.save(directorEntity);
-        log.info("save: {}", saved);
-
+        
         return modelMapper.map(saved, DirectorResponse.class);
       } else {
         throw new ResourceNotFoundException("El director no ha sido encontrado");
