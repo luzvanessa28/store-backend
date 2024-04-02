@@ -86,5 +86,26 @@ public class PerroServiceImpl implements IPerroService {
     }
   }
 
+  @Override
+  public void delete(Long id) {
+    log.info("Deleting Perro impl: {}", id);
 
+    try {
+      Optional<PerroEntity> perroOptional = perroRepository.findById(id);
+      log.info("perroOptional: {}", perroOptional);
+
+      if (perroOptional.isPresent()) {
+        log.info("Perro entity: {}", perroOptional.get());
+        perroRepository.deleteById(id);
+
+
+      } else {
+        throw new ResourceNotFoundException(Message.ID_NOT_FOUND);
+      }
+
+    } catch (DataAccessException e) {
+      log.error("Se produjo un error al eliminar la persona", e.getMessage());
+      throw new InternalServerException(Message.DELETE_ERROR + "el perro", e);
+    }
+  }
 }
