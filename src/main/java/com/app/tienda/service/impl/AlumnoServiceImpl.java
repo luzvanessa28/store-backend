@@ -1,5 +1,6 @@
 package com.app.tienda.service.impl;
 
+import com.app.tienda.constant.Message;
 import com.app.tienda.entity.AlumnoEntity;
 import com.app.tienda.exception.InternalServerException;
 import com.app.tienda.exception.ResourceNotFoundException;
@@ -46,7 +47,9 @@ public class AlumnoServiceImpl implements IAlumnoService {
       return modelMapper.map(saveAlumn, AlumnoResponse.class);
 
     } catch (Exception e) {
-      throw new InternalServerException("Se produjo un error al guardar al alumno", e);
+
+      log.error("Se produjo un error al guardar al alumno", e.getMessage());
+      throw new InternalServerException(Message.SAVE_ERROR + " al alumno", e);
     }
   }
 
@@ -57,7 +60,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
 
     return alumnoOptional
       .map(alumnoEntity -> modelMapper.map(alumnoEntity, AlumnoResponse.class))
-      .orElseThrow(() -> new ResourceNotFoundException("El alumno no ha sido encontrado"));
+      .orElseThrow(() -> new ResourceNotFoundException(Message.ID_NOT_FOUND));
   }
 
   @Override
@@ -73,11 +76,11 @@ public class AlumnoServiceImpl implements IAlumnoService {
         AlumnoEntity savedAlumno = alumnoRepository.save(alumnoEntity);
         return modelMapper.map(savedAlumno, AlumnoResponse.class);
       } else {
-        throw new ResourceNotFoundException("El alumno no ha sido encontrada");
+        throw new ResourceNotFoundException(Message.ID_NOT_FOUND);
       }
     } catch (DataAccessException e) {
-      log.error("Se produjo un error al guardar al alumno", e.getMessage());
-      throw new InternalServerException("Se produjo un error al guardar al alumno", e);
+      log.error("Se produjo un error al actualizar al alumno", e.getMessage());
+      throw new InternalServerException(Message.UPDATE_ERROR + " al alumno", e);
     }
   }
 
@@ -90,14 +93,12 @@ public class AlumnoServiceImpl implements IAlumnoService {
       if (alumnoOptional.isPresent()) {
         alumnoRepository.deleteById(id);
       } else {
-        throw new ResourceNotFoundException("El ID no existe");
+        throw new ResourceNotFoundException(Message.ID_NOT_FOUND);
       }
 
     } catch (DataAccessException e) {
       log.error("Se produjo un error al eliminar el alumno", e.getMessage());
-      throw new InternalServerException("Se produjo un error al eliminar al alumno", e);
+      throw new InternalServerException(Message.DELETE_ERROR + " al alumno", e);
     }
   }
-
-
 }
