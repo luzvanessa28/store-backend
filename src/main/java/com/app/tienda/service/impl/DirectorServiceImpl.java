@@ -1,5 +1,6 @@
 package com.app.tienda.service.impl;
 
+import com.app.tienda.constant.Message;
 import com.app.tienda.entity.DirectorEntity;
 import com.app.tienda.exception.InternalServerException;
 import com.app.tienda.exception.ResourceNotFoundException;
@@ -48,9 +49,8 @@ public class DirectorServiceImpl implements IDirectorService {
       return modelMapper.map(saved, DirectorResponse.class);
     } catch (Exception e) {
       log.error("Se produjo un error al guardar al director", e.getMessage());
-      throw new InternalServerException("Se produjo un error al guardar el director", e);
+      throw new InternalServerException(Message.SAVE_ERROR + "el director", e);
     }
-
   }
 
   @Override
@@ -60,7 +60,7 @@ public class DirectorServiceImpl implements IDirectorService {
 
     return directorOptional
       .map(directorEntity -> modelMapper.map(directorEntity, DirectorResponse.class))
-      .orElseThrow(() -> new ResourceNotFoundException("El director no ha sido encontrado"));
+      .orElseThrow(() -> new ResourceNotFoundException(Message.ID_NOT_FOUND));
   }
 
   @Override
@@ -74,14 +74,14 @@ public class DirectorServiceImpl implements IDirectorService {
         modelMapper.map(directorRequest, directorEntity);
 
         DirectorEntity saved = directorRepository.save(directorEntity);
-        
+
         return modelMapper.map(saved, DirectorResponse.class);
       } else {
-        throw new ResourceNotFoundException("El director no ha sido encontrado");
+        throw new ResourceNotFoundException(Message.ID_NOT_FOUND);
       }
     } catch (RuntimeException e)/*(Exception e)*/ {
       log.error("Se produjo un error al guardar la persona", e.getMessage());
-      throw new InternalServerException("Se produjo un error al guardar la persona", e);
+      throw new InternalServerException(Message.UPDATE_ERROR + "la persona", e);
     }
   }
 
@@ -94,11 +94,11 @@ public class DirectorServiceImpl implements IDirectorService {
       if (directorOptional.isPresent()) {
         directorRepository.deleteById(id);
       } else {
-        throw new ResourceNotFoundException("El director no ha sido encontrado");
+        throw new ResourceNotFoundException(Message.ID_NOT_FOUND);
       }
     } catch (DataAccessException e) {
       log.error("Se produjo un error al eliminar el director: {}", e.getMessage());
-      throw new InternalServerException("El director no ha sido encontrado", e);
+      throw new InternalServerException(Message.DELETE_ERROR + "el director", e);
     }
   }
 
