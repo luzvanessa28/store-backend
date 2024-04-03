@@ -98,7 +98,6 @@ public class PerroServiceImpl implements IPerroService {
         log.info("Perro entity: {}", perroOptional.get());
         perroRepository.deleteById(id);
 
-
       } else {
         throw new ResourceNotFoundException(Message.ID_NOT_FOUND);
       }
