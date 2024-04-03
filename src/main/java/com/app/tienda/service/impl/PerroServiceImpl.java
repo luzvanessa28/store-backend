@@ -104,7 +104,7 @@ public class PerroServiceImpl implements IPerroService {
       }
 
     } catch (DataAccessException e) {
-      log.error("Se produjo un error al eliminar la persona", e.getMessage());
+      log.error("Se produjo un error al eliminar el perro", e.getMessage());
       throw new InternalServerException(Message.DELETE_ERROR + "el perro", e);
     }
   }
