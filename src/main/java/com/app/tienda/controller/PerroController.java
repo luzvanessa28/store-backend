@@ -20,16 +20,13 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/perros")
 public class PerroController {
   private final Logger log = LoggerFactory.getLogger(this.getClass());
-
   @Autowired
   private IPerroService perroService;
-
   @GetMapping
   public List<PerroResponse> getAll() {
 
     return perroService.findAll();
   }
-
   @PostMapping
   public ResponseEntity<?> create(
     @Valid @RequestBody PerroRequest perro,
