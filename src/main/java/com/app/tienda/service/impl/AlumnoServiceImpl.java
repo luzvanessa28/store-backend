@@ -28,6 +28,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
   private ModelMapper modelMapper;
   @Override
   public List<AlumnoResponse> findAllAlumns() {
+    log.info("AlumnoServiceImpl - find all Alumno");
 
     List<AlumnoEntity> alumnos = alumnoRepository.findAll();
 
@@ -38,7 +39,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
 
   @Override
   public AlumnoResponse saveAlumn(AlumnoRequest alumnoRequest) {
-
+    log.info("AlumnoServiceImpl - saveAlumno: {}", alumnoRequest);
     try {
       AlumnoEntity alumnoEntity= modelMapper.map(alumnoRequest, AlumnoEntity.class);
 
@@ -55,6 +56,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
 
   @Override
   public AlumnoResponse getById(Long id) {
+    log.info("AlumnoServiceImpl - getById: {}", id);
 
     Optional<AlumnoEntity> alumnoOptional = alumnoRepository.findById(id);
 
@@ -65,6 +67,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
 
   @Override
   public AlumnoResponse updateAlumn(Long id, AlumnoRequest alumnoRequest) {
+    log.info("AlumnoServiceImpl - updateAlumno: {}", alumnoRequest);
 
     try {
       Optional<AlumnoEntity> alumnOptional = alumnoRepository.findById(id);
@@ -86,6 +89,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
 
   @Override
   public void deleteAlumn(Long id) {
+    log.info("AlumnServiceImpl - deleteAlumn: {}", id);
 
     try {
       Optional<AlumnoEntity> alumnoOptional = alumnoRepository.findById(id);

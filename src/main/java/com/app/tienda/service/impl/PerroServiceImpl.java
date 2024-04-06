@@ -29,6 +29,7 @@ public class PerroServiceImpl implements IPerroService {
 
   @Override
   public List<PerroResponse> findAll() {
+    log.info("PerroServiceImpl - find all perro");
 
    List<PerroEntity> perros = perroRepository.findAll();
 
@@ -39,6 +40,7 @@ public class PerroServiceImpl implements IPerroService {
 
   @Override
   public PerroResponse save(PerroRequest perroRequest) {
+    log.info("PerroServiceImpl - savePerro", perroRequest);
 
     try {
       PerroEntity perroEntity = modelMapper.map(perroRequest, PerroEntity.class);
@@ -55,6 +57,7 @@ public class PerroServiceImpl implements IPerroService {
 
   @Override
   public PerroResponse getById(Long id) {
+    log.info("PerroServiceImpl - getById: {}", id);
 
     Optional<PerroEntity> perroOptional = perroRepository.findById(id);
 
@@ -64,7 +67,9 @@ public class PerroServiceImpl implements IPerroService {
   }
 
   @Override
-  public PerroResponse updatePerro(Long id, PerroRequest perroRequest) {
+  public PerroResponse update(Long id, PerroRequest perroRequest) {
+    log.info("PerroServiceImpl - updatePerro: {}", id);
+    log.info("PerroServiceImpl - updatePerro: {}", perroRequest);
 
     try {
       Optional<PerroEntity> perroOptional = perroRepository.findById(id);
@@ -88,7 +93,7 @@ public class PerroServiceImpl implements IPerroService {
 
   @Override
   public void delete(Long id) {
-    log.info("Deleting Perro impl: {}", id);
+    log.info("PerroServiceImpl - deletePerro: {}", id);
 
     try {
       Optional<PerroEntity> perroOptional = perroRepository.findById(id);

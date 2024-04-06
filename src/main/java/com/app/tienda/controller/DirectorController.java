@@ -19,12 +19,13 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/director")
 public class DirectorController {
   private final Logger log = LoggerFactory.getLogger(this.getClass());
-
   @Autowired
   private IDirectorService directorService;
 
   @GetMapping
   public List<DirectorResponse> getAll() {
+    log.info("Fetching all director");
+
     return directorService.findAll();
   }
 
@@ -33,6 +34,7 @@ public class DirectorController {
     @Valid @RequestBody DirectorRequest director,
     BindingResult bindingResult
   ) {
+    log.info("Creating director: {}", director);
 
     if (bindingResult.hasErrors()) {
 
@@ -42,11 +44,15 @@ public class DirectorController {
 
       return ResponseEntity.badRequest().body(errors);
     }
+
+    log.info("Created director");
     return ResponseEntity.status(HttpStatus.CREATED).body(directorService.save(director));
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<?> getById(@PathVariable Long id) {
+    log.info("Fetching director by id {}", id);
+
     return new ResponseEntity<>(directorService.getById(id),HttpStatus.OK);
   }
 
@@ -56,6 +62,7 @@ public class DirectorController {
     @Valid @RequestBody DirectorRequest director,
     BindingResult bindingResult
   ) {
+    log.info("Updating director: {}", director);
 
     if (bindingResult.hasErrors()) {
 
@@ -65,11 +72,14 @@ public class DirectorController {
 
       return ResponseEntity.badRequest().body(errors);
     }
+
+    log.info("Updated director");
     return ResponseEntity.status(HttpStatus.OK).body(directorService.updateDirector(id, director));
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<?> delete(@PathVariable Long id) {
+    log.info("Deleting director by id {}", id);
 
     directorService.deleteDirector(id);
     return ResponseEntity.status(HttpStatus.OK).build();

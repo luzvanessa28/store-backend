@@ -30,6 +30,7 @@ public class DirectorServiceImpl implements IDirectorService {
 
   @Override
   public List<DirectorResponse> findAll() {
+    log.info("DirectorServiceImpl - find all Director");
 
     List<DirectorEntity> directors = directorRepository.findAll();
 
@@ -40,6 +41,7 @@ public class DirectorServiceImpl implements IDirectorService {
 
   @Override
   public DirectorResponse save(DirectorRequest directorRequest) {
+    log.info("DirectorServiceImpl - saveDirector: {}", directorRequest);
 
     try {
       DirectorEntity directorEntity = modelMapper.map(directorRequest, DirectorEntity.class);
@@ -55,6 +57,7 @@ public class DirectorServiceImpl implements IDirectorService {
 
   @Override
   public DirectorResponse getById(Long id) {
+    log.info("DirectorServiceImpl - getById: {}", id);
 
     Optional<DirectorEntity> directorOptional = directorRepository.findById(id);
 
@@ -65,6 +68,7 @@ public class DirectorServiceImpl implements IDirectorService {
 
   @Override
   public DirectorResponse updateDirector(Long id, DirectorRequest directorRequest) {
+    log.info("DirectorServiceImpl - updateDirector: {}", id, directorRequest);
 
     try {
       Optional<DirectorEntity> directorOptional = directorRepository.findById(id);
@@ -87,7 +91,7 @@ public class DirectorServiceImpl implements IDirectorService {
 
   @Override
   public void deleteDirector(Long id) {
-
+    log.info("DirectorServiceImpl - deleteDirector: {}", id);
     try {
       Optional<DirectorEntity> directorOptional = directorRepository.findById(id);
 
