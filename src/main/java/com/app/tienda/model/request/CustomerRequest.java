@@ -13,8 +13,7 @@ public class CustomerRequest {
   @Size(min = 3, max=20, message = "El nombre debe de contener de 3 a 20 caracteres")
   private String name;
 
-  @NotBlank(message = "Es requerido")
-  private AddressEntity address;
+  private AddressRequest address;
 
   @NotBlank(message = "Es requerido")
   @Size(min = 10)
@@ -23,4 +22,8 @@ public class CustomerRequest {
   @NotBlank(message = "Es requerido")
   @Email
   private String email;
+
+  @NotBlank(message = "F (femenino) o M (masculino)")
+  @Size(max = 1)
+  private String gender;
 }
