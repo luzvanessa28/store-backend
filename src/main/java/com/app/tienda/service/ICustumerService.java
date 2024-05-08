@@ -8,5 +8,6 @@ import java.util.List;
 public interface ICustumerService {
   public List<CustomerResponse> findAll();
   public CustomerResponse save(CustomerRequest customerRequest);
+  public CustomerResponse getById(Long id);
 
 }

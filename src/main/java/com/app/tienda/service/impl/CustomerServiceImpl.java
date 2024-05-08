@@ -4,7 +4,9 @@ import com.app.tienda.constant.Message;
 import com.app.tienda.entity.AddressEntity;
 import com.app.tienda.entity.CustomerEntity;
 import com.app.tienda.exception.InternalServerException;
+import com.app.tienda.exception.ResourceNotFoundException;
 import com.app.tienda.model.request.CustomerRequest;
+import com.app.tienda.model.response.AlumnoResponse;
 import com.app.tienda.model.response.CustomerResponse;
 import com.app.tienda.repository.AddressRepository;
 import com.app.tienda.repository.CustomerRepository;
@@ -65,5 +67,17 @@ public class CustomerServiceImpl implements ICustumerService {
       throw new InternalServerException(Message.SAVE_ERROR + " al cliente", e);
     }
   }
+  @Override
+  public CustomerResponse getById(Long id) {
+    log.info("getById impl {}", id);
+
+    Optional<CustomerEntity> customerOptional = customerRepository.findById(id);
+    log.info("customerOptional {}", customerOptional);
+
+    return customerOptional
+      .map(customerEntity -> modelMapper.map(customerEntity, CustomerResponse.class))
+      .orElseThrow(() -> new ResourceNotFoundException(Message.ID_NOT_FOUND));
+  }
+
 
 }

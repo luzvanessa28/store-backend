@@ -49,4 +49,11 @@ public class CustomerController {
     return ResponseEntity.status(HttpStatus.CREATED).body(customerService.save(customer));
   }
 
+  @GetMapping("/{id}")
+  public ResponseEntity<?> getById(@PathVariable Long id) {
+    log.info("Fetching customer by id: {}", id);
+
+    return new ResponseEntity<>(customerService.getById(id), HttpStatus.OK);
+  }
+
 }
