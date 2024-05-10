@@ -80,6 +80,18 @@ public class CustomerServiceImpl implements ICustumerService {
   }
 
   @Override
+  public List<CustomerResponse> getByName(String name) {
+    log.info("getByName impl {}", name);
+
+    List<CustomerEntity> customerName = customerRepository.findByName(name);
+    log.info("getByName impl customerName {}", customerName);
+
+    return customerName.stream().
+      map(customerEntity -> modelMapper.map(customerEntity, CustomerResponse.class))
+      .collect(Collectors.toList());
+  }
+
+  @Override
   public List<CustomerResponse> getByCity(String city) {
     log.info("CustomerServiceImpl - find customer by city {}", city);
 

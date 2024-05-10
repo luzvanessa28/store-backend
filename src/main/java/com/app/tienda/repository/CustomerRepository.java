@@ -12,7 +12,7 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
   //Estas son 2 formas diferentes para filtrar
 
   //1
-  //List<CustomerEntity> findByAddressCity(String city);
+  List<CustomerEntity> findByName(String name);
 
   //2
   @Query(value = "SELECT * FROM customers c INNER JOIN address a ON c.address_id = a.id WHERE a.city = :city", nativeQuery = true)
