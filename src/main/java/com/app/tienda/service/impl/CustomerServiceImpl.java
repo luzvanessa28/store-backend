@@ -79,5 +79,16 @@ public class CustomerServiceImpl implements ICustumerService {
       .orElseThrow(() -> new ResourceNotFoundException(Message.ID_NOT_FOUND));
   }
 
+  @Override
+  public List<CustomerResponse> getByCity(String city) {
+    log.info("CustomerServiceImpl - find customer by city {}", city);
+
+    List<CustomerEntity> customerList = this.customerRepository.findByAddressCity(city);
+
+    return customerList.stream()
+      .map(customerEntity -> modelMapper.map(customerEntity, CustomerResponse.class))
+      .collect(Collectors.toList());
+  }
+
 
 }
