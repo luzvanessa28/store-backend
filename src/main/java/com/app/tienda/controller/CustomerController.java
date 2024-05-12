@@ -57,7 +57,6 @@ public class CustomerController {
   }
 
   @GetMapping("/name/{name}")
-  //public ResponseEntity<?> getByName(@PathVariable String name) {
   public ResponseEntity<List<CustomerResponse>> getByName(@PathVariable String name) {
     log.info("Fetching customer by name: {}", name);
 
@@ -70,4 +69,10 @@ public class CustomerController {
     return new ResponseEntity<>(customerService.getByCity(city), HttpStatus.OK);
   }
 
+  @GetMapping("/email/{email}")
+  public ResponseEntity<?> findByEmail(@PathVariable String email) {
+    log.info("Fetching customer by email: {}", email);
+
+    return new ResponseEntity<>(customerService.getByEmail(email), HttpStatus.OK);
+  }
 }

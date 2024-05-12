@@ -102,5 +102,16 @@ public class CustomerServiceImpl implements ICustumerService {
       .collect(Collectors.toList());
   }
 
+  @Override
+  public List<CustomerResponse> getByEmail(String email) {
+    log.info("CustomerServiceImpl - find customer by email {}", email);
+
+    List<CustomerEntity> CustomerEmail = this.customerRepository.findByEmail(email);
+
+    return CustomerEmail.stream()
+      .map(CustomerEntity -> modelMapper.map(CustomerEntity, CustomerResponse.class))
+      .collect(Collectors.toList());
+  }
+
 
 }
