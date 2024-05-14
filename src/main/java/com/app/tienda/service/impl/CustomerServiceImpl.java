@@ -6,7 +6,6 @@ import com.app.tienda.entity.CustomerEntity;
 import com.app.tienda.exception.InternalServerException;
 import com.app.tienda.exception.ResourceNotFoundException;
 import com.app.tienda.model.request.CustomerRequest;
-import com.app.tienda.model.response.AlumnoResponse;
 import com.app.tienda.model.response.CustomerResponse;
 import com.app.tienda.repository.AddressRepository;
 import com.app.tienda.repository.CustomerRepository;
@@ -14,6 +13,7 @@ import com.app.tienda.service.ICustumerService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -111,6 +111,32 @@ public class CustomerServiceImpl implements ICustumerService {
     return CustomerEmail.stream()
       .map(CustomerEntity -> modelMapper.map(CustomerEntity, CustomerResponse.class))
       .collect(Collectors.toList());
+  }
+
+  @Override
+  public CustomerResponse update(Long id, CustomerRequest customerRequest) {
+    log.info("customerServiceImpl - updateCustomer: {}", customerRequest);
+
+    try {
+      Optional<CustomerEntity> customerOptional = customerRepository.findById(id);
+
+      if (customerOptional.isPresent()) {
+
+        CustomerEntity customerEntity = customerOptional.get();
+        modelMapper.map(customerRequest, customerEntity);
+
+        CustomerEntity saved = customerRepository.save(customerEntity);
+
+        return modelMapper.map(saved, CustomerResponse.class);
+
+      } else {
+        throw new ResourceNotFoundException(Message.ID_NOT_FOUND);
+      }
+
+    } catch (Exception e) {
+      log.error("Se produjo un error al actualizar el cliente");
+      throw new InternalServerException(Message.UPDATE_ERROR + "el cliente", e);
+    }
   }
 
 

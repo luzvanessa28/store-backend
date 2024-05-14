@@ -75,4 +75,24 @@ public class CustomerController {
 
     return new ResponseEntity<>(customerService.getByEmail(email), HttpStatus.OK);
   }
+  @PutMapping("/{id}")
+  public ResponseEntity<?> update(
+    @PathVariable Long id,
+    @Valid @RequestBody CustomerRequest customer,
+    BindingResult bindingResult
+  ) {
+    log.info("Updating customer {}", customer);
+
+    if (bindingResult.hasErrors()) {
+
+      List<String> errors = bindingResult.getFieldErrors().stream()
+         .map(error -> error.getField() + ": " + error.getDefaultMessage())
+         .collect(Collectors.toList());
+
+      return ResponseEntity.badRequest().body(errors);
+    }
+
+    return ResponseEntity.status(HttpStatus.OK).body(customerService.update(id, customer));
+  }
+
 }
