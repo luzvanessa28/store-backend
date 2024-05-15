@@ -13,4 +13,5 @@ public interface ICustumerService {
   public List<CustomerResponse> getByCity(String city);
   public List<CustomerResponse> getByEmail(String email);
   public CustomerResponse update(Long id, CustomerRequest customerRequest);
+  public void delete(Long id);
 }

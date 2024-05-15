@@ -95,4 +95,12 @@ public class CustomerController {
     return ResponseEntity.status(HttpStatus.OK).body(customerService.update(id, customer));
   }
 
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> delete(@PathVariable Long id) {
+    log.info("Deleting customer by id: {}", id);
+
+    customerService.delete(id);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
+
 }

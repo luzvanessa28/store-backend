@@ -137,6 +137,29 @@ public class CustomerServiceImpl implements ICustumerService {
       log.error("Se produjo un error al actualizar el cliente");
       throw new InternalServerException(Message.UPDATE_ERROR + "el cliente", e);
     }
+
+
+  }
+
+  @Override
+  public void delete(Long id) {
+    log.info("CustomerService - delete {}", id);
+
+    try {
+      Optional<CustomerEntity> customerOptional = customerRepository.findById(id);
+
+      if (customerOptional.isPresent()) {
+        customerRepository.deleteById(id);
+        log.info("The customer was successfully deleted");
+
+      } else {
+        log.info("The customer was not found {}");
+        throw new ResourceNotFoundException(Message.ID_NOT_FOUND);
+      }
+    } catch (Exception e) {
+      log.error("Se produjo un error al eliminar el cliente", e.getMessage());
+      throw new InternalServerException(Message.DELETE_ERROR + "el cliente", e);
+    }
   }
 
 
