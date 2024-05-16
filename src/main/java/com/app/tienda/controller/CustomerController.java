@@ -102,5 +102,4 @@ public class CustomerController {
     customerService.delete(id);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
-
 }

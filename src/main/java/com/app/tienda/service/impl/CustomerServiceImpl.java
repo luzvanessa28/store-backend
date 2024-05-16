@@ -137,8 +137,6 @@ public class CustomerServiceImpl implements ICustumerService {
       log.error("Se produjo un error al actualizar el cliente");
       throw new InternalServerException(Message.UPDATE_ERROR + "el cliente", e);
     }
-
-
   }
 
   @Override
@@ -149,11 +147,21 @@ public class CustomerServiceImpl implements ICustumerService {
       Optional<CustomerEntity> customerOptional = customerRepository.findById(id);
 
       if (customerOptional.isPresent()) {
-        customerRepository.deleteById(id);
-        log.info("The customer was successfully deleted");
+        CustomerEntity customerEntity = customerOptional.get();
 
-      } else {
-        log.info("The customer was not found {}");
+        //obtener la dirección del cliente
+        AddressEntity address = customerEntity.getAddress();
+        log.info("obtener la dirección del cliente {}", customerEntity.getAddress());
+
+        // Eliminar el cliente
+        customerRepository.delete(customerEntity);
+
+        // Eliminar la dirección
+        addressRepository.delete(address);
+
+        log.info("Cliente y dirección eliminados correctamente");
+      }else {
+        log.info("The customer was not found");
         throw new ResourceNotFoundException(Message.ID_NOT_FOUND);
       }
     } catch (Exception e) {
@@ -161,6 +169,4 @@ public class CustomerServiceImpl implements ICustumerService {
       throw new InternalServerException(Message.DELETE_ERROR + "el cliente", e);
     }
   }
-
-
 }
