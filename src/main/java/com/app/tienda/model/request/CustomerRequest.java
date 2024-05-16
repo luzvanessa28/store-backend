@@ -1,6 +1,5 @@
 package com.app.tienda.model.request;
 
-import com.app.tienda.entity.AddressEntity;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
