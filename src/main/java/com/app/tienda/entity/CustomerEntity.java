@@ -18,7 +18,7 @@ public class CustomerEntity {
   private Long id;
   private String name;
 
-  @OneToOne //@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true) esto es para el eliminado de proveedor
+  @OneToOne
   @JoinColumn(name = "address_id", referencedColumnName = "id")
   private AddressEntity address;
 
