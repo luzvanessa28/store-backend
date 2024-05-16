@@ -2,7 +2,6 @@ package com.app.tienda.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 
