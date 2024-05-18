@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+@Transactional
 @Slf4j
 @Service
 public class CustomerServiceImpl implements ICustumerService {
@@ -41,7 +41,6 @@ public class CustomerServiceImpl implements ICustumerService {
       .collect(Collectors.toList());
   }
 
-  @Transactional
   @Override
   public CustomerResponse save(CustomerRequest customerRequest) {
     log.info("CustomerServiceImpl - save {}", customerRequest);
