@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ISupplierService {
   public List<SupplierResponse> findAll();
+  public SupplierResponse save(SupplierRequest supplierRequest);
 }

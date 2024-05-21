@@ -40,4 +40,25 @@ public class SupplierServiceImpl implements ISupplierService {
       .map(supplierEntity -> modelMapper.map(supplierEntity, SupplierResponse.class))
       .collect(Collectors.toList());
   }
+
+  @Override
+  public SupplierResponse save(SupplierRequest supplierRequest) {
+    log.info("CustomerServiceImpl - save {}", supplierRequest);
+
+    try {
+      SupplierEntity supplierEntity = modelMapper.map(supplierRequest, SupplierEntity.class);
+
+      AddressEntity addressEntity = supplierEntity.getAddress();
+
+      addressRepository.save(addressEntity);
+
+      supplierEntity.setAddress(addressEntity);
+      SupplierEntity saved = supplierRepository.save(supplierEntity);
+
+      return modelMapper.map(saved, SupplierResponse.class);
+    } catch (Exception e) {
+      log.error("Se produjo un error al guardar al proveedor", e.getMessage());
+      throw new InternalServerException(Message.SAVE_ERROR + "al proveedor", e);
+    }
+  }
 }

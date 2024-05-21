@@ -28,4 +28,23 @@ public class SupplierController {
     log.info("Getting all suppliers");
     return supplierService.findAll();
   }
+
+  @PostMapping
+  public ResponseEntity<?> create(
+    @Valid @RequestBody SupplierRequest supplier,
+    BindingResult bindingResult
+  ) {
+    log.info("creating supplier: {}", supplier);
+
+    if (bindingResult.hasErrors()) {
+
+      List<String> errors = bindingResult.getFieldErrors().stream()
+        .map(error -> error.getField() + ": " + error.getDefaultMessage())
+        .collect(Collectors.toList());
+
+      return ResponseEntity.badRequest().body(errors);
+    }
+    log.info("supplier created successfully");
+    return ResponseEntity.status(HttpStatus.CREATED).body(supplierService.save(supplier));
+  }
 }
