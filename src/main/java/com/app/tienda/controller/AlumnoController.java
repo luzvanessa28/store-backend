@@ -1,7 +1,6 @@
 package com.app.tienda.controller;
 
 import com.app.tienda.model.request.AlumnoRequest;
-import com.app.tienda.model.request.PersonRequest;
 import com.app.tienda.model.response.AlumnoResponse;
 import com.app.tienda.service.IAlumnoService;
 import org.slf4j.Logger;
