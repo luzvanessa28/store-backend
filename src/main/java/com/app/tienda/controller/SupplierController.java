@@ -8,13 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @RestController
@@ -53,5 +51,12 @@ public class SupplierController {
     log.info("Fetching provider by id: {}", id);
 
     return new ResponseEntity<>(supplierService.getById(id), HttpStatus.OK);
+  }
+
+  @GetMapping("/name/{name}")
+  public ResponseEntity<List<SupplierResponse>> getByName(@PathVariable String name) {
+    log.info("Fetching customer by name: {}", name);
+
+    return new ResponseEntity<>(supplierService.getByName(name), HttpStatus.OK);
   }
 }

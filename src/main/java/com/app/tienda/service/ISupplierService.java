@@ -9,4 +9,5 @@ public interface ISupplierService {
   public List<SupplierResponse> findAll();
   public SupplierResponse save(SupplierRequest supplierRequest);
   public SupplierResponse getById(Long id);
+  public List<SupplierResponse> getByName(String name);
 }

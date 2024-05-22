@@ -15,7 +15,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -74,5 +73,17 @@ public class SupplierServiceImpl implements ISupplierService {
     return providerOptional
       .map(providerEntity -> modelMapper.map(providerEntity, SupplierResponse.class))
       .orElseThrow(() -> new ResourceNotFoundException(Message.ID_NOT_FOUND + ": " + id));
+  }
+
+  @Override
+  public List<SupplierResponse> getByName(String name) {
+    log.info("getByName impl {}", name);
+
+    List<SupplierEntity> supplierName = supplierRepository.findByName(name);
+    log.info("getByName impl supplierName {}", supplierName);
+
+    return supplierName.stream().
+      map(supplierEntity -> modelMapper.map(supplierEntity, SupplierResponse.class))
+      .collect(Collectors.toList());
   }
 }
