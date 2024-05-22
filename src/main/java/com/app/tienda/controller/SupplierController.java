@@ -47,4 +47,11 @@ public class SupplierController {
     log.info("supplier created successfully");
     return ResponseEntity.status(HttpStatus.CREATED).body(supplierService.save(supplier));
   }
+
+  @GetMapping("/{id}")
+  private ResponseEntity<SupplierResponse> findById(@PathVariable Long id) {
+    log.info("Fetching provider by id: {}", id);
+
+    return new ResponseEntity<>(supplierService.getById(id), HttpStatus.OK);
+  }
 }

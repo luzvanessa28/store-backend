@@ -4,6 +4,7 @@ import com.app.tienda.constant.Message;
 import com.app.tienda.entity.AddressEntity;
 import com.app.tienda.entity.SupplierEntity;
 import com.app.tienda.exception.InternalServerException;
+import com.app.tienda.exception.ResourceNotFoundException;
 import com.app.tienda.model.request.SupplierRequest;
 import com.app.tienda.model.response.SupplierResponse;
 import com.app.tienda.repository.AddressRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -55,10 +57,22 @@ public class SupplierServiceImpl implements ISupplierService {
       supplierEntity.setAddress(addressEntity);
       SupplierEntity saved = supplierRepository.save(supplierEntity);
 
+      log.info("Se guardo correctamente");
       return modelMapper.map(saved, SupplierResponse.class);
     } catch (Exception e) {
       log.error("Se produjo un error al guardar al proveedor", e.getMessage());
       throw new InternalServerException(Message.SAVE_ERROR + "al proveedor", e);
     }
+  }
+
+  @Override
+  public SupplierResponse getById(Long id) {
+    log.info("ProviderServiceImpl - find provider by id {}", id);
+
+    Optional<SupplierEntity> providerOptional = supplierRepository.findById(id);
+
+    return providerOptional
+      .map(providerEntity -> modelMapper.map(providerEntity, SupplierResponse.class))
+      .orElseThrow(() -> new ResourceNotFoundException(Message.ID_NOT_FOUND + ": " + id));
   }
 }
