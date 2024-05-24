@@ -59,4 +59,11 @@ public class SupplierController {
 
     return new ResponseEntity<>(supplierService.getByName(name), HttpStatus.OK);
   }
+
+  @GetMapping("/city/{city}")
+  private ResponseEntity<List<SupplierResponse>> findByCity(@PathVariable String city) {
+    log.info("Fetching provider by city: {}", city);
+
+    return new ResponseEntity<>(supplierService.getByCity(city), HttpStatus.OK);
+  }
 }

@@ -845,3 +845,7 @@ SELECT * FROM customers c INNER JOIN address a ON c.address_id = a.id WHERE a.ci
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "LIBRO" no encontrada
 Table "LIBRO" not found; SQL statement:
 DELETE FROM libro WHERE id = 1 [42102-214]
+2024-05-23 21:04:47 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "PROVIDERS" no encontrada
+Table "PROVIDERS" not found; SQL statement:
+SELECT * FROM PROVIDERS p INNER JOIN ADDRESS a ON p.address_id = a.id WHERE a.city = ? [42102-214]

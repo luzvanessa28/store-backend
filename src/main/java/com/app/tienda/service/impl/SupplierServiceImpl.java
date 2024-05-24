@@ -86,4 +86,15 @@ public class SupplierServiceImpl implements ISupplierService {
       map(supplierEntity -> modelMapper.map(supplierEntity, SupplierResponse.class))
       .collect(Collectors.toList());
   }
+
+  @Override
+  public List<SupplierResponse> getByCity(String city) {
+      log.info("ProviderServiceImpl - find provider by city {}", city);
+
+      List<SupplierEntity> providerList = this.supplierRepository.findByAddressCity(city);
+
+      return providerList.stream()
+        .map(providerEntity -> modelMapper.map(providerEntity, SupplierResponse.class))
+        .collect(Collectors.toList());
+  }
 }

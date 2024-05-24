@@ -10,4 +10,5 @@ public interface ISupplierService {
   public SupplierResponse save(SupplierRequest supplierRequest);
   public SupplierResponse getById(Long id);
   public List<SupplierResponse> getByName(String name);
+  public List<SupplierResponse> getByCity(String city);
 }
