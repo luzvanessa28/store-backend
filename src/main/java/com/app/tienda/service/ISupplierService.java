@@ -11,4 +11,5 @@ public interface ISupplierService {
   public SupplierResponse getById(Long id);
   public List<SupplierResponse> getByName(String name);
   public List<SupplierResponse> getByCity(String city);
+  public List<SupplierResponse> getByEmail(String email);
 }

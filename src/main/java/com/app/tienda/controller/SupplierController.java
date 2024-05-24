@@ -66,4 +66,11 @@ public class SupplierController {
 
     return new ResponseEntity<>(supplierService.getByCity(city), HttpStatus.OK);
   }
+
+  @GetMapping("/email/{email}")
+  public ResponseEntity<?> findByEmail(@PathVariable String email) {
+    log.info("Fetching customer by email: {}", email);
+
+    return new ResponseEntity<>(supplierService.getByEmail(email), HttpStatus.OK);
+  }
 }

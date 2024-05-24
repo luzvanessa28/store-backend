@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -96,5 +97,17 @@ public class SupplierServiceImpl implements ISupplierService {
       return providerList.stream()
         .map(providerEntity -> modelMapper.map(providerEntity, SupplierResponse.class))
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public List<SupplierResponse> getByEmail(String email) {
+    log.info("CustomerServiceImpl - find customer by email {}", email);
+
+    List<SupplierEntity> supplierEmail = this.supplierRepository.findByEmail(email);
+    log.info("supplierEmail {}", supplierEmail);
+
+    return supplierEmail.stream()
+      .map(SupplierEntity -> modelMapper.map(SupplierEntity, SupplierResponse.class))
+      .collect(Collectors.toList());
   }
 }
