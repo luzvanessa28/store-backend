@@ -13,6 +13,7 @@ import com.app.tienda.service.ISupplierService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -101,7 +102,7 @@ public class SupplierServiceImpl implements ISupplierService {
 
   @Override
   public List<SupplierResponse> getByEmail(String email) {
-    log.info("CustomerServiceImpl - find customer by email {}", email);
+    log.info("SupplierServiceImpl - find supplier by email {}", email);
 
     List<SupplierEntity> supplierEmail = this.supplierRepository.findByEmail(email);
     log.info("supplierEmail {}", supplierEmail);
@@ -109,5 +110,25 @@ public class SupplierServiceImpl implements ISupplierService {
     return supplierEmail.stream()
       .map(SupplierEntity -> modelMapper.map(SupplierEntity, SupplierResponse.class))
       .collect(Collectors.toList());
+  }
+
+  @Override
+  public void delete(Long id) {
+    log.info("Deleting supplier by id: {}", id);
+
+    try {
+      Optional<SupplierEntity> supplierOptional = supplierRepository.findById(id);
+
+      if (supplierOptional.isPresent()) {
+        supplierRepository.deleteById(id);
+
+      } else {
+        log.info("The supplier was not found");
+        throw new ResourceNotFoundException(Message.ID_NOT_FOUND + ": " + id);
+      }
+    } catch (DataAccessException e) {
+      log.info("Se produjo un error al eliminar al proveedor", e.getMessage());
+      throw new InternalServerException(Message.DELETE_ERROR + "al proveedor", e);
+    }
   }
 }

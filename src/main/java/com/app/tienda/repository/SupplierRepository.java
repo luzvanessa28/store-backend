@@ -36,4 +36,6 @@ public interface SupplierRepository extends JpaRepository<SupplierEntity, Long> 
    */
   @Query(value = "SELECT * FROM SUPPLIER WHERE email = :email", nativeQuery = true)
   List<SupplierEntity> findByEmail(String email);
+
+
 }

@@ -69,8 +69,16 @@ public class SupplierController {
 
   @GetMapping("/email/{email}")
   public ResponseEntity<?> findByEmail(@PathVariable String email) {
-    log.info("Fetching customer by email: {}", email);
+    log.info("Fetching supplier by email: {}", email);
 
     return new ResponseEntity<>(supplierService.getByEmail(email), HttpStatus.OK);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> delete(@PathVariable Long id) {
+    log. info("Deleting supplier by id: {}", id);
+
+    supplierService.delete(id);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }
