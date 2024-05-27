@@ -17,10 +17,10 @@ public class ProductEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private String nombre;
-  private String descripcion;
-  private BigDecimal precio;
-  private int cantidadEnInventario;
-  private int proveedorId;
-  private String categoria;
+  private String name;
+  private String description;
+  private BigDecimal price;
+  private int quantityInInventory;
+  private int supplierId;
+  private String category;
 }
