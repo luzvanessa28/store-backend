@@ -74,6 +74,29 @@ public class SupplierController {
     return new ResponseEntity<>(supplierService.getByEmail(email), HttpStatus.OK);
   }
 
+  @PutMapping("/{id}")
+  public ResponseEntity<?> update(
+    @PathVariable Long id,
+    @Valid @RequestBody SupplierRequest supplierRequest,
+    BindingResult bindingResult
+  ) {
+    log.info("Updating supplier by id: {}", id);
+
+    if (bindingResult.hasErrors()) {
+
+      List<String> errors = bindingResult.getFieldErrors().stream()
+        .map(error -> error.getField() + ": " + error.getDefaultMessage())
+        .collect(Collectors.toList());
+
+      return ResponseEntity.badRequest().body(errors);
+    }
+
+    SupplierResponse supplierUpdated = supplierService.update(id, supplierRequest);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(supplierUpdated);
+  }
+
+
   @DeleteMapping("/{id}")
   public ResponseEntity<?> delete(@PathVariable Long id) {
     log. info("Deleting supplier by id: {}", id);

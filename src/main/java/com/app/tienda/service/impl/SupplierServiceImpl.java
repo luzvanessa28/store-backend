@@ -113,6 +113,28 @@ public class SupplierServiceImpl implements ISupplierService {
   }
 
   @Override
+  public SupplierResponse update(Long id, SupplierRequest supplierRequest) {
+    log.info("ProviderServiceImpl - update: {} {}", id, supplierRequest);
+
+    try {
+      Optional<SupplierEntity> supplierOptional = supplierRepository.findById(id);
+
+      if (supplierOptional.isPresent()) {
+        SupplierEntity supplierEntity = supplierOptional.get();
+        modelMapper.map(supplierRequest, supplierEntity);
+
+        SupplierEntity supplierUpdate = supplierRepository.save(supplierEntity);
+        return modelMapper.map(supplierUpdate, SupplierResponse.class);
+      } else {
+        throw new ResourceNotFoundException("No se encontró el proveedor con ID: " + id);
+      }
+    } catch (DataAccessException e) {
+      log.error("Hubo un error al actualizar el proveedor: {}", e.getMessage());
+      throw new InternalServerException(Message.UPDATE_ERROR + "el proveedor con ID: " + id, e);
+    }
+  }
+
+  @Override
   public void delete(Long id) {
     log.info("Deleting supplier by id: {}", id);
 

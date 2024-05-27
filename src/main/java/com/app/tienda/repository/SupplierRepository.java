@@ -16,7 +16,7 @@ public interface SupplierRepository extends JpaRepository<SupplierEntity, Long> 
    * @return retorna una lista de proveedores que coincidan con el nombre.
    */
 
-  @Query(value = "SELECT * FROM PROVIDERS WHERE name = :name", nativeQuery = true)
+  @Query(value = "SELECT * FROM SUPPLIER WHERE name = :name", nativeQuery = true)
   List<SupplierEntity> findByName(String name);
 
   /**
@@ -25,7 +25,7 @@ public interface SupplierRepository extends JpaRepository<SupplierEntity, Long> 
    * @param city la ciudad para filtrar los proveedores.
    * @return una lista de proveedores en la ciudad dada.
    */
-  @Query(value = "SELECT * FROM SUPPLIER s INNER JOIN ADDRESS a ON p.address_id = a.id WHERE a.city = :city", nativeQuery = true)
+  @Query(value = "SELECT * FROM SUPPLIER s INNER JOIN ADDRESS a ON s.address_id = a.id WHERE a.city = :city", nativeQuery = true)
   List<SupplierEntity> findByAddressCity(String city);
 
   /**

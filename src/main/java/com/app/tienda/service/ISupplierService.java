@@ -12,5 +12,6 @@ public interface ISupplierService {
   public List<SupplierResponse> getByName(String name);
   public List<SupplierResponse> getByCity(String city);
   public List<SupplierResponse> getByEmail(String email);
+  public SupplierResponse update(Long id, SupplierRequest supplierRequest);
   public void delete(Long id);
 }
