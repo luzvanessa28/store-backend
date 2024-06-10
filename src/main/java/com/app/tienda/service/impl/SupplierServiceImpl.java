@@ -67,7 +67,7 @@ public class SupplierServiceImpl implements ISupplierService {
 
   @Override
   public SupplierResponse getById(Long id) {
-    log.info("ProviderServiceImpl - find provider by id {}", id);
+    log.info("SupplierServiceImpl - find supplier by id {}", id);
 
     Optional<SupplierEntity> supplierOptional = supplierRepository.findById(id);
 
@@ -90,12 +90,12 @@ public class SupplierServiceImpl implements ISupplierService {
 
   @Override
   public List<SupplierResponse> getByCity(String city) {
-      log.info("ProviderServiceImpl - find provider by city {}", city);
+      log.info("SupplierServiceImpl - find supplier by city {}", city);
 
-      List<SupplierEntity> providerList = this.supplierRepository.findByAddressCity(city);
+      List<SupplierEntity> supplierList = this.supplierRepository.findByAddressCity(city);
 
-      return providerList.stream()
-        .map(providerEntity -> modelMapper.map(providerEntity, SupplierResponse.class))
+      return supplierList.stream()
+        .map(supplierEntity -> modelMapper.map(supplierEntity, SupplierResponse.class))
         .collect(Collectors.toList());
   }
 
@@ -113,7 +113,7 @@ public class SupplierServiceImpl implements ISupplierService {
 
   @Override
   public SupplierResponse update(Long id, SupplierRequest supplierRequest) {
-    log.info("ProviderServiceImpl - update: {} {}", id, supplierRequest);
+    log.info("supplierServiceImpl - update: {} {}", id, supplierRequest);
 
     try {
       Optional<SupplierEntity> supplierOptional = supplierRepository.findById(id);
