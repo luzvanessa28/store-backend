@@ -23,6 +23,6 @@ public class ProductEntity {
   private String category;
 
   @ManyToOne
-  @JoinColumn(name = "supplier_id")
+  @JoinColumn(name = "supplier_id", referencedColumnName = "id")
   private SupplierEntity supplier;
 }
