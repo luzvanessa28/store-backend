@@ -8,4 +8,5 @@ import java.util.List;
 public interface IProductService {
   public List<ProductResponse> findAll();
   public ProductResponse save(ProductRequest productRequest);
+  public ProductResponse getById(Long id);
 }

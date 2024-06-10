@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -57,6 +58,17 @@ public class ProductServiceImpl implements IProductService {
       log.error("Hubo un error al crear el proveedor : {}", e.getMessage());
       throw new InternalServerException(Message.SAVE_ERROR + "el proveedor");
     }
+  }
+  @Override
+  public ProductResponse getById(Long id) {
+    log.info("ProductServiceImpl - getById: {}", id);
+
+    Optional<ProductEntity> productOptional = productRepository.findById(id);
+    log.info("productOptional {}", productOptional);
+
+    return productOptional
+      .map(productEntity -> modelMapper.map(productEntity, ProductResponse.class))
+      .orElseThrow(() -> new ResourceNotFoundException(Message.ID_NOT_FOUND + ": " + id));
   }
 
 }

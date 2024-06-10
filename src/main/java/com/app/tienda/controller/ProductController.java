@@ -46,4 +46,11 @@ public class ProductController {
 
     return ResponseEntity.status(HttpStatus.CREATED).body(productSaved);
   }
+
+  @GetMapping("/{id}")
+  private ResponseEntity<ProductResponse> findById(@PathVariable Long id) {
+    log.info("Fetching product by id: {}", id);
+
+    return new ResponseEntity<>(productService.getById(id), HttpStatus.OK);
+  }
 }
