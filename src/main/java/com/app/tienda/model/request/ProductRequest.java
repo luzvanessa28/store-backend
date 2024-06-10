@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 @Getter
@@ -28,13 +25,14 @@ public class ProductRequest {
   @DecimalMin(value = "0.0", inclusive = false, message = "El precio debe ser mayor que 0")
   private BigDecimal price;
 
-  @NotBlank(message = "Requerido")
-  @Size(max = 60, message = "Solo se aceptan numeros")
+  @NotNull(message = "Solo se aceptan numeros")
+  @Max(value = 800, message = "Lo maximo que se puede tener en inventario son 800 piezas.")
   private Integer quantityInInventory;
 
   @NotBlank(message = "Requerido")
   @Size(max = 50, message = "maximo 50 caracteres")
   private String category;
 
-  private SupplierEntity supplier;
+  @NotNull(message = "Requerido")
+  private Long supplierId;
 }
