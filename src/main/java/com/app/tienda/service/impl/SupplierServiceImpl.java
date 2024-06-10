@@ -69,10 +69,10 @@ public class SupplierServiceImpl implements ISupplierService {
   public SupplierResponse getById(Long id) {
     log.info("ProviderServiceImpl - find provider by id {}", id);
 
-    Optional<SupplierEntity> providerOptional = supplierRepository.findById(id);
+    Optional<SupplierEntity> supplierOptional = supplierRepository.findById(id);
 
-    return providerOptional
-      .map(providerEntity -> modelMapper.map(providerEntity, SupplierResponse.class))
+    return supplierOptional
+      .map(supplierEntity -> modelMapper.map(supplierEntity, SupplierResponse.class))
       .orElseThrow(() -> new ResourceNotFoundException(Message.ID_NOT_FOUND + ": " + id));
   }
 

@@ -48,7 +48,7 @@ public class SupplierController {
 
   @GetMapping("/{id}")
   private ResponseEntity<SupplierResponse> findById(@PathVariable Long id) {
-    log.info("Fetching provider by id: {}", id);
+    log.info("Fetching supplier by id: {}", id);
 
     return new ResponseEntity<>(supplierService.getById(id), HttpStatus.OK);
   }
@@ -62,7 +62,7 @@ public class SupplierController {
 
   @GetMapping("/city/{city}")
   private ResponseEntity<List<SupplierResponse>> findByCity(@PathVariable String city) {
-    log.info("Fetching provider by city: {}", city);
+    log.info("Fetching supplier by city: {}", city);
 
     return new ResponseEntity<>(supplierService.getByCity(city), HttpStatus.OK);
   }
