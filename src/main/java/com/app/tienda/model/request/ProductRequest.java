@@ -1,6 +1,5 @@
 package com.app.tienda.model.request;
 
-import com.app.tienda.entity.SupplierEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
