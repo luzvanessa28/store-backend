@@ -53,4 +53,28 @@ public class ProductController {
 
     return new ResponseEntity<>(productService.getById(id), HttpStatus.OK);
   }
+
+  @PutMapping("/{id}")
+  private ResponseEntity<?> update(
+    @PathVariable Long id,
+    @Valid @RequestBody ProductRequest productRequest,
+    BindingResult bindingResult
+  ){
+    log.info("Update product by id: {}", id);
+
+    if (bindingResult.hasErrors()) {
+      log.info("Error updating product");
+
+      List<String> errors = bindingResult.getFieldErrors().stream()
+       .map(error -> error.getField() + ": " + error.getDefaultMessage())
+       .collect(Collectors.toList());
+      log.info("errors: " + errors);
+
+      return ResponseEntity.badRequest().body(errors);
+    }
+    ProductResponse productUpdated = productService.update(id, productRequest);
+    log.info("productUpdated: " + productUpdated);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(productUpdated);
+  }
 }

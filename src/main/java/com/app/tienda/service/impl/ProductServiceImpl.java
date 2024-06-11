@@ -13,6 +13,7 @@ import com.app.tienda.service.IProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -69,6 +70,29 @@ public class ProductServiceImpl implements IProductService {
     return productOptional
       .map(productEntity -> modelMapper.map(productEntity, ProductResponse.class))
       .orElseThrow(() -> new ResourceNotFoundException(Message.ID_NOT_FOUND + ": " + id));
+  }
+
+  @Override
+  public ProductResponse update(Long id, ProductRequest productRequest) {
+    log.info("Product service imp - update: {} {}", id, productRequest);
+
+    try {
+      Optional<ProductEntity> productOptional = productRepository.findById(id);
+
+      if (productOptional.isPresent()) {
+        ProductEntity productEntity = productOptional.get();
+        modelMapper.map(productRequest, productEntity);
+
+        ProductEntity productUpdate = productRepository.save(productEntity);
+        return modelMapper.map(productRepository.save(productEntity), ProductResponse.class);
+
+      } else {
+        throw new ResourceNotFoundException(Message.ID_NOT_FOUND);
+      }
+    } catch (DataAccessException e) {
+      log.info("Hubo un error al actualizar el producto: {}", e.getMessage());
+      throw new InternalServerException(Message.UPDATE_ERROR + "el producto con ID " + id, e);
+    }
   }
 
 }
