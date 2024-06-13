@@ -50,7 +50,7 @@ public class ProductServiceImpl implements IProductService {
 
     try {
       ProductEntity productEntity = modelMapper.map(productRequest, ProductEntity.class);
-
+      productEntity.setId(null);
       productEntity.setSupplier(supplier);
       ProductEntity saved = productRepository.save(productEntity);
 
@@ -80,11 +80,18 @@ public class ProductServiceImpl implements IProductService {
       Optional<ProductEntity> productOptional = productRepository.findById(id);
 
       if (productOptional.isPresent()) {
-        ProductEntity productEntity = productOptional.get();
-        modelMapper.map(productRequest, productEntity);
+        //ProductEntity productEntity = productOptional.get();
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setId(id);
+        productEntity.setName(productRequest.getName());
+        productEntity.setDescription(productRequest.getDescription());
+        productEntity.setPrice(productRequest.getPrice());
+        productEntity.setQuantityInInventory(productRequest.getQuantityInInventory());
+        productEntity.setQuantityInInventory(productRequest.getQuantityInInventory());
+        productEntity.setSupplier(productOptional.get().getSupplier());
 
         ProductEntity productUpdate = productRepository.save(productEntity);
-        return modelMapper.map(productRepository.save(productEntity), ProductResponse.class);
+        return modelMapper.map(productUpdate, ProductResponse.class);
 
       } else {
         throw new ResourceNotFoundException(Message.ID_NOT_FOUND);
