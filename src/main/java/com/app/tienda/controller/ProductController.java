@@ -1,5 +1,6 @@
 package com.app.tienda.controller;
 
+import com.app.tienda.entity.ProductEntity;
 import com.app.tienda.model.request.ProductRequest;
 import com.app.tienda.model.response.ProductResponse;
 import com.app.tienda.service.IProductService;
@@ -76,5 +77,12 @@ public class ProductController {
     log.info("productUpdated: " + productUpdated);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(productUpdated);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> delete(@PathVariable Long id) {
+    log.info("product controller {}", id);
+    productService.delete(id);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }

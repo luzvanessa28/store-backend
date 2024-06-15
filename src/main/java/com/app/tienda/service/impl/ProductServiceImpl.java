@@ -87,7 +87,7 @@ public class ProductServiceImpl implements IProductService {
         productEntity.setDescription(productRequest.getDescription());
         productEntity.setPrice(productRequest.getPrice());
         productEntity.setQuantityInInventory(productRequest.getQuantityInInventory());
-        productEntity.setQuantityInInventory(productRequest.getQuantityInInventory());
+        productEntity.setCategory(productRequest.getCategory());
         productEntity.setSupplier(productOptional.get().getSupplier());
 
         ProductEntity productUpdate = productRepository.save(productEntity);
@@ -102,4 +102,25 @@ public class ProductServiceImpl implements IProductService {
     }
   }
 
+  @Override
+  public void delete(Long id) {
+    log.info("Deleting producto by id: {}", id);
+
+    try {
+      Optional<ProductEntity> productOptional = productRepository.findById(id);
+      log.info("Product optional {}", productOptional);
+
+      if (productOptional.isPresent()) {
+        log.info("Product {}", productOptional);
+        productRepository.deleteById(id);
+
+      } else {
+        log.info("The product was not found");
+        throw new ResourceNotFoundException(Message.ID_NOT_FOUND +  ": " + id);
+      }
+    } catch (DataAccessException e) {
+      log.info("Se produjo un error al eliminar el producto {}", e.getMessage());
+      throw new InternalServerException(Message.DELETE_ERROR + " el producto", e);
+    }
+  }
 }
