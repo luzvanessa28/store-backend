@@ -9,6 +9,8 @@ public interface IProductService {
   public List<ProductResponse> findAll();
   public ProductResponse save(ProductRequest productRequest);
   public ProductResponse getById(Long id);
+  public List<ProductResponse> getByName(String name);
+  public List<ProductResponse> getByCategory(String name);
   public ProductResponse update(Long id, ProductRequest productRequest);
   public void delete(Long id);
 }

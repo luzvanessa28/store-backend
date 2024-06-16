@@ -55,6 +55,20 @@ public class ProductController {
     return new ResponseEntity<>(productService.getById(id), HttpStatus.OK);
   }
 
+  @GetMapping("/name/{name}")
+  private ResponseEntity<List<ProductResponse>> findByName(@PathVariable String name) {
+    log.info("Fetching product by name: {}", name);
+
+    return new ResponseEntity<>(productService.getByName(name), HttpStatus.OK);
+  }
+
+  @GetMapping("/category/{category}")
+  private ResponseEntity<List<ProductResponse>> findByCategory(@PathVariable String category) {
+    log.info("Fetching product by category: {}", category);
+
+    return new ResponseEntity<>(productService.getByCategory(category), HttpStatus.OK);
+  }
+
   @PutMapping("/{id}")
   private ResponseEntity<?> update(
     @PathVariable Long id,

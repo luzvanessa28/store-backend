@@ -73,6 +73,29 @@ public class ProductServiceImpl implements IProductService {
   }
 
   @Override
+  public List<ProductResponse> getByName(String name) {
+    log.info("ProductServiceImpl - find product by name {}", name);
+
+    List<ProductEntity> productName = productRepository.findByName(name);
+
+    return productName.stream().
+      map(productEntity -> modelMapper.map(productEntity, ProductResponse.class))
+      .collect(Collectors.toList());
+  }
+
+  @Override
+  public List<ProductResponse> getByCategory(String category) {
+    log.info("ProductServiceImpl - find product by category {}", category);
+
+    List<ProductEntity> productList = this.productRepository.findByCategory(category);
+    log.info("productList {}", productList);
+
+    return productList.stream()
+      .map(productEntity -> modelMapper.map(productEntity, ProductResponse.class))
+      .collect(Collectors.toList());
+  }
+
+  @Override
   public ProductResponse update(Long id, ProductRequest productRequest) {
     log.info("Product service imp - update: {} {}", id, productRequest);
 
@@ -80,7 +103,6 @@ public class ProductServiceImpl implements IProductService {
       Optional<ProductEntity> productOptional = productRepository.findById(id);
 
       if (productOptional.isPresent()) {
-        //ProductEntity productEntity = productOptional.get();
         ProductEntity productEntity = new ProductEntity();
         productEntity.setId(id);
         productEntity.setName(productRequest.getName());
