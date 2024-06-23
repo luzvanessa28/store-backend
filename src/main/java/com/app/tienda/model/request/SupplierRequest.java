@@ -9,16 +9,8 @@ import javax.validation.constraints.Size;
 @Data
 public class SupplierRequest {
   @NotBlank(message = "Es requerido")
-  @Size(min = 3, max=20, message = "Debe de contener de 3 a 20 caracteres")
+  @Size(min = 3, max=35, message = "Debe de contener de 3 a 20 caracteres")
   private String name;
-
-  @NotBlank(message = "Es requerido")
-  @Size(min = 3, max=20, message = "Debe de contener de 3 a 20 caracteres")
-  private String lastName;
-
-  @NotBlank(message = "Es requerido")
-  @Size(min = 3, max=20, message = "Debe de contener de 3 a 20 caracteres")
-  private String secondLastName;
 
   private AddressRequest address;
 
@@ -29,8 +21,4 @@ public class SupplierRequest {
   @NotBlank(message = "Es requerido")
   @Email
   private String email;
-
-  @NotBlank(message = "F (femenino) o M (masculino)")
-  @Size(max = 1)
-  private String gender;
 }

@@ -9,14 +9,12 @@ import javax.persistence.*;
 @Setter
 @ToString
 @Entity
-@Table(name = "supplier")
+@Table(name = "suppliers")
 public class SupplierEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String lastName;
-    private String secondLastName;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
@@ -24,5 +22,4 @@ public class SupplierEntity {
 
     private String phone;
     private String email;
-    private String gender;
 }
