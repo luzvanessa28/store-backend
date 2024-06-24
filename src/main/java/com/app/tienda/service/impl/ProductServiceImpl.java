@@ -6,6 +6,7 @@ import com.app.tienda.entity.SupplierEntity;
 import com.app.tienda.exception.InternalServerException;
 import com.app.tienda.exception.ResourceNotFoundException;
 import com.app.tienda.model.request.ProductRequest;
+import com.app.tienda.model.response.IProductResponse;
 import com.app.tienda.model.response.ProductResponse;
 import com.app.tienda.repository.ProductRepository;
 import com.app.tienda.repository.SupplierRepository;
@@ -94,6 +95,14 @@ public class ProductServiceImpl implements IProductService {
       .map(productEntity -> modelMapper.map(productEntity, ProductResponse.class))
       .collect(Collectors.toList());
   }
+
+  @Override
+  public List<IProductResponse> getSuppilerById(Long supplierId) {
+    log.info("ProductServiceImpl - find products by supplierId {}", supplierId);
+
+    return productRepository.findProductsBySuppiler(supplierId);
+  }
+
 
   @Override
   public ProductResponse update(Long id, ProductRequest productRequest) {

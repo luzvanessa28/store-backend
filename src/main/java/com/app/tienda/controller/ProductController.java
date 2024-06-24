@@ -1,7 +1,7 @@
 package com.app.tienda.controller;
 
-import com.app.tienda.entity.ProductEntity;
 import com.app.tienda.model.request.ProductRequest;
+import com.app.tienda.model.response.IProductResponse;
 import com.app.tienda.model.response.ProductResponse;
 import com.app.tienda.service.IProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -67,6 +67,15 @@ public class ProductController {
     log.info("Fetching product by category: {}", category);
 
     return new ResponseEntity<>(productService.getByCategory(category), HttpStatus.OK);
+  }
+
+  @GetMapping("/supplier/{supplierId}")
+  private ResponseEntity<List<IProductResponse>> findProductBySupplier(@PathVariable Long supplierId) {
+    log.info("Fetching product by supplierId: {}", supplierId);
+
+    return new ResponseEntity<>(
+      productService.getSuppilerById(supplierId), HttpStatus.OK
+    );
   }
 
   @PutMapping("/{id}")
