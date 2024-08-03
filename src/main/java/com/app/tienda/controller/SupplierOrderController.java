@@ -80,14 +80,9 @@ public class SupplierOrderController {
       List<String> errors = bindingResult.getFieldErrors().stream()
        .map(error -> error.getField() + ": " + error.getDefaultMessage())
        .collect(Collectors.toList());
-      log.info("errors {}", errors);
-
       return ResponseEntity.badRequest().body(errors);
     }
-
     SupplierOrderWithDetailsResponse orderUpdated = supplierOrderService.update(id, supplierOrderRequest);
-    log.info("Supplier order updated successfully: {}", orderUpdated);
-
     return ResponseEntity.status(HttpStatus.CREATED).body(orderUpdated);
   }
 
@@ -97,7 +92,6 @@ public class SupplierOrderController {
 
     return supplierOrderService.updateStatus(id, status);
   }
-
 
   @DeleteMapping("/{id}")
   public ResponseEntity<?> delete(@PathVariable Long id) {
