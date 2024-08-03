@@ -9,7 +9,6 @@ import com.app.tienda.enums.OrderStatus;
 import com.app.tienda.exception.InternalServerException;
 import com.app.tienda.exception.ResourceNotFoundException;
 import com.app.tienda.model.request.SupplierOrderRequest;
-import com.app.tienda.model.response.IProductResponse;
 import com.app.tienda.model.response.ISupplierOrderWithDetailsResponse;
 import com.app.tienda.model.response.SupplierOrderProductResponse;
 import com.app.tienda.model.response.SupplierOrderWithDetailsResponse;
@@ -74,7 +73,6 @@ public class SupplierOrderServiceImpl implements ISupplierOrderService {
       orderEntity.setTotalAmount(totalAmount);
       orderEntity.setSupplier(supplierEntity);
       SupplierOrderEntity saved = supplierOrderRepository.save(orderEntity);
-      log.info("saved: {}", saved);
 
       return Message.SAVE;
 
@@ -186,7 +184,6 @@ public class SupplierOrderServiceImpl implements ISupplierOrderService {
     log.info("SupplierOrderServiceImpl - getByStatus: {}", status);
 
     List<ISupplierOrderWithDetailsResponse> supplierOrders = supplierOrderRepository.getByStatus(status);
-    log.info("supplierOrders {}", supplierOrders);
 
     Map<Long, SupplierOrderWithDetailsResponse> orderMap = new LinkedHashMap<>();
 
@@ -267,7 +264,6 @@ public class SupplierOrderServiceImpl implements ISupplierOrderService {
 
     SupplierOrderEntity orderOptional = supplierOrderRepository.findById(id)
       .orElseThrow(() -> new ResourceNotFoundException("The order was not found."));
-    log.info("SupplierOrderServiceImpl - updateStatus {}", orderOptional);
 
     try {
       orderOptional.setStatus(status);
@@ -286,13 +282,10 @@ public class SupplierOrderServiceImpl implements ISupplierOrderService {
 
     try {
       Optional<SupplierOrderEntity> orderOptional =supplierOrderRepository.findById(id);
-      log.info("orderEntity {}", orderOptional);
 
       if (orderOptional.isPresent()) {
-        log.info("order {}", orderOptional);
         supplierOrderRepository.deleteById(id);
       } else {
-        log.info("the order was not found");
         throw new ResourceNotFoundException(Message.ID_NOT_FOUND + ": " + id);
       }
     } catch (DataAccessException e) {
