@@ -1,7 +1,6 @@
 package com.app.tienda.controller;
 
 import com.app.tienda.model.request.SupplierOrderRequest;
-import com.app.tienda.model.response.IProductResponse;
 import com.app.tienda.model.response.SupplierOrderWithDetailsResponse;
 import com.app.tienda.service.ISupplierOrderService;
 import lombok.extern.slf4j.Slf4j;
@@ -35,11 +34,9 @@ public class SupplierOrderController {
         .map(error -> error.getField() + ": " + error.getDefaultMessage())
         .collect(Collectors.toList());
 
-      log.info("errors {}", errors);
       return ResponseEntity.badRequest().body(errors);
     }
     String orderSaved = supplierOrderService.save(supplierOrderRequest);
-    log.info("orderSaved: {}", orderSaved);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(orderSaved);
   }
