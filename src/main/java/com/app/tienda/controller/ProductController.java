@@ -29,10 +29,10 @@ public class ProductController {
 
   @PostMapping
   public ResponseEntity<Object> save(
-    @Valid @RequestBody ProductRequest prroductRequest,
+    @Valid @RequestBody ProductRequest productRequest,
     BindingResult bindingResult
   ) {
-    log.info("Creating product: {}", prroductRequest);
+    log.info("Creating product: {}", productRequest);
 
     if (bindingResult.hasErrors()) {
 
@@ -43,7 +43,7 @@ public class ProductController {
       return ResponseEntity.badRequest().body(errors);
     }
 
-    ProductResponse productSaved = productService.save(prroductRequest);
+    ProductResponse productSaved = productService.save(productRequest);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(productSaved);
   }
@@ -92,12 +92,10 @@ public class ProductController {
       List<String> errors = bindingResult.getFieldErrors().stream()
        .map(error -> error.getField() + ": " + error.getDefaultMessage())
        .collect(Collectors.toList());
-      log.info("errors: " + errors);
 
       return ResponseEntity.badRequest().body(errors);
     }
     ProductResponse productUpdated = productService.update(id, productRequest);
-    log.info("productUpdated: " + productUpdated);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(productUpdated);
   }
