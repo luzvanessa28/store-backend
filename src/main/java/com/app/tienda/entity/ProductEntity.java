@@ -19,7 +19,6 @@ public class ProductEntity {
   private String name;
   private String description;
   private BigDecimal price;
-  private Integer quantityInInventory;
   private String category;
 
   @ManyToOne

@@ -17,5 +17,5 @@ public class ProductResponse {
   private BigDecimal price;
   private Integer quantityInInventory;
   private String category;
-  private SupplierEntity supplier;
+  //private SupplierEntity supplier;
 }
