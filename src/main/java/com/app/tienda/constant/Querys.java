@@ -1,5 +1,7 @@
 package com.app.tienda.constant;
 
+import org.hibernate.sql.Select;
+
 public class Querys {
 
   public static final String QUERY_FILTER_PRODUCTS_BY_NAME = "SELECT * FROM PRODUCTS WHERE name = :name";
@@ -18,4 +20,21 @@ public class Querys {
     "    suppliers s ON p.supplier_id = s.id\n" +
     "WHERE \n" +
     "    s.id = :supplierId";
+
+  public static final String QUERY_FIND_ALL_SUPPLIER_ORDERS = "SELECT so.id as orderId, so.date, so.status, so.total_amount as totalAmount, \n" +
+    "p.id as productId, p.name as product, p.price, sop.quantity \n" +
+    "FROM SUPPLIER_ORDERS so\n" +
+    "JOIN SUPPLIER_ORDER_PRODUCT sop on so.id = sop.supplier_order_id\n" +
+    "JOIN PRODUCTS p on sop.product_id = p.id";
+
+  public static final String QUERY_FILTER_SUPPLIER_ORDER_BY_SUPPLIER_ID = "SELECT so.id as orderId, so.date, so.status, so.total_amount as totalAmount, \n" +
+  "p.id as productId, p.name as product, p.price, sop.quantity\n" +
+  "FROM SUPPLIER_ORDERS so\n" +
+  "JOIN SUPPLIER_ORDER_PRODUCT sop on so.id = sop.supplier_order_id\n" +
+  "JOIN PRODUCTS p on sop.product_id = p.id where so.supplier_id = :supplierId";
+  public static final String QUERY_FILTER_ORDER_BY_STATUS = "SELECT so.id as orderId, so.date, so.status, so.total_amount as totalAmount,\n" +
+    "  p.id as productId, p.name as product, p.price, sop.quantity\n" +
+    "  FROM SUPPLIER_ORDERS so\n" +
+    "  JOIN SUPPLIER_ORDER_PRODUCT sop on so.id = sop.supplier_order_id\n" +
+    "  JOIN PRODUCTS p on sop.product_id = p.id where so.status = :status";
 }
