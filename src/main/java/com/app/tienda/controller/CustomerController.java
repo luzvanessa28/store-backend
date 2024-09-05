@@ -29,7 +29,7 @@ public class CustomerController {
   }
 
   @PostMapping
-  public ResponseEntity<?> create(
+  public ResponseEntity<Object> create(
     @Valid @RequestBody CustomerRequest customer,
     BindingResult bindingResult
   ) {
@@ -50,7 +50,7 @@ public class CustomerController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<?> getById(@PathVariable Long id) {
+  public ResponseEntity<Object> getById(@PathVariable Long id) {
     log.info("Fetching customer by id: {}", id);
 
     return new ResponseEntity<>(customerService.getById(id), HttpStatus.OK);
@@ -63,20 +63,20 @@ public class CustomerController {
     return new ResponseEntity<>(customerService.getByName(name), HttpStatus.OK);
   }
   @GetMapping("/city/{city}")
-  private ResponseEntity<List<CustomerResponse>> findByCity(@PathVariable String city) {
+  public ResponseEntity<List<CustomerResponse>> findByCity(@PathVariable String city) {
     log.info("Fetching customer by city: {}", city);
 
     return new ResponseEntity<>(customerService.getByCity(city), HttpStatus.OK);
   }
 
   @GetMapping("/email/{email}")
-  public ResponseEntity<?> findByEmail(@PathVariable String email) {
+  public ResponseEntity<Object> findByEmail(@PathVariable String email) {
     log.info("Fetching customer by email: {}", email);
 
     return new ResponseEntity<>(customerService.getByEmail(email), HttpStatus.OK);
   }
   @PutMapping("/{id}")
-  public ResponseEntity<?> update(
+  public ResponseEntity<Object> update(
     @PathVariable Long id,
     @Valid @RequestBody CustomerRequest customer,
     BindingResult bindingResult
@@ -96,7 +96,7 @@ public class CustomerController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<?> delete(@PathVariable Long id) {
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
     log.info("Deleting customer by id: {}", id);
 
     customerService.delete(id);
