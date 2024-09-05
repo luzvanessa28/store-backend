@@ -41,15 +41,24 @@ public class CustomerServiceImpl implements ICustumerService {
       .collect(Collectors.toList());
   }
 
+  @Transactional
   @Override
   public CustomerResponse save(CustomerRequest customerRequest) {
     log.info("CustomerServiceImpl - save {}", customerRequest);
 
     try {
-      CustomerEntity customerEntity = modelMapper.map(customerRequest, CustomerEntity.class);
+      CustomerEntity customerEntity = new CustomerEntity();
+      customerEntity.setName(customerRequest.getName());
+      customerEntity.setPhone(customerRequest.getPhone());
+      customerEntity.setEmail(customerRequest.getEmail());
+      customerEntity.setGender(customerRequest.getGender());
 
       // Obtener la dirección del customerEntity
-      AddressEntity addressEntity = customerEntity.getAddress();
+      AddressEntity addressEntity = new AddressEntity();
+      addressEntity.setCity(customerRequest.getAddress().getCity());
+      addressEntity.setStreet(customerRequest.getAddress().getStreet());
+
+      customerEntity.setAddress(addressEntity);
 
       // Guardar la dirección primero para obtener su ID generado
       addressRepository.save(addressEntity);
@@ -59,12 +68,12 @@ public class CustomerServiceImpl implements ICustumerService {
       CustomerEntity saved = customerRepository.save(customerEntity);
 
       return modelMapper.map(saved, CustomerResponse.class);
-
     } catch (Exception e) {
-      log.error("Se produjo un error al guardar al cliente", e.getMessage());
-      throw new InternalServerException(Message.SAVE_ERROR + " al cliente", e);
+      log.error("Hubo un error al crear el cliente : {}", e.getMessage());
+      throw new InternalServerException("Hubo un error al crear el cliente");
     }
   }
+
   @Override
   public CustomerResponse getById(Long id) {
     log.info("getById impl {}", id);
@@ -145,7 +154,7 @@ public class CustomerServiceImpl implements ICustumerService {
       Optional<CustomerEntity> customerOptional = customerRepository.findById(id);
 
       if (customerOptional.isPresent()) {
-        CustomerEntity customerEntity = customerOptional.get();
+        CustomerEntity customerEntity = customerOptional.get(); //el .get() me permite obtener el valor del optional
 
         //obtener la dirección del cliente
         AddressEntity address = customerEntity.getAddress();
@@ -163,7 +172,7 @@ public class CustomerServiceImpl implements ICustumerService {
         throw new ResourceNotFoundException(Message.ID_NOT_FOUND);
       }
     } catch (Exception e) {
-      log.error("Se produjo un error al eliminar el cliente", e.getMessage());
+      log.error("Se produjo un error al eliminar el cliente {}", e.getMessage());
       throw new InternalServerException(Message.DELETE_ERROR + "el cliente", e);
     }
   }
