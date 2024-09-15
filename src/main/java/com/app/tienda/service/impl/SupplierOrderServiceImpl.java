@@ -15,12 +15,14 @@ import com.app.tienda.model.response.SupplierOrderWithDetailsResponse;
 import com.app.tienda.repository.ProductRepository;
 import com.app.tienda.repository.SupplierOrderRepository;
 import com.app.tienda.repository.SupplierRepository;
+import com.app.tienda.service.IInventoryService;
 import com.app.tienda.service.ISupplierOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -37,9 +39,10 @@ public class SupplierOrderServiceImpl implements ISupplierOrderService {
   private ModelMapper modelMapper;
   @Autowired
   private SupplierRepository supplierRepository;
-
   @Autowired
   private ProductRepository productRepository;
+  @Autowired
+  private IInventoryService inventoryService;
 
   @Override
   public String save(SupplierOrderRequest supplierOrderRequest) {
@@ -135,7 +138,7 @@ public class SupplierOrderServiceImpl implements ISupplierOrderService {
 
         SupplierOrderProductResponse productResponse = new SupplierOrderProductResponse();
         productResponse.setName(productEntity.getName());
-        productResponse.setQuantity(productEntity.getQuantityInInventory());
+        productResponse.setQuantity(product.getQuantity());
         productResponse.setUnitPrice(productEntity.getPrice());
 
         return productResponse;
@@ -151,32 +154,7 @@ public class SupplierOrderServiceImpl implements ISupplierOrderService {
     log.info("SupplierOrderServiceImpl - getBySupplierId: {}", supplierId);
     List<ISupplierOrderWithDetailsResponse> supplierOrders = supplierOrderRepository.getBySupplierId(supplierId);
 
-    Map<Long, SupplierOrderWithDetailsResponse> orderMap = new LinkedHashMap<>();
-
-    // Obtener o crear la orden proveedor si no existe en el mapa
-    supplierOrders.forEach(projection -> {
-      Long orderId = projection.getOrderId();
-      SupplierOrderWithDetailsResponse orderResponse = orderMap.computeIfAbsent(orderId, id -> {
-        SupplierOrderWithDetailsResponse response = new SupplierOrderWithDetailsResponse();
-        response.setId(id);
-        response.setDate(projection.getDate());
-        response.setStatus(projection.getStatus());
-        response.setTotalAmount(projection.getTotalAmount());
-        response.setProducts(new ArrayList<>());
-
-        return response;
-      });
-
-      // Crear el producto de la orden proveedor y agregarlo a la lista de productos
-      SupplierOrderProductResponse productResponse = new SupplierOrderProductResponse();
-      productResponse.setName(projection.getProduct());
-      productResponse.setUnitPrice(projection.getPrice());
-      productResponse.setQuantity(projection.getQuantity());
-
-      orderResponse.getProducts().add(productResponse);
-    });
-
-    return new ArrayList<>(orderMap.values());
+    return this.responseOrder(supplierOrders);
   }
 
   @Override
@@ -185,31 +163,7 @@ public class SupplierOrderServiceImpl implements ISupplierOrderService {
 
     List<ISupplierOrderWithDetailsResponse> supplierOrders = supplierOrderRepository.getByStatus(status);
 
-    Map<Long, SupplierOrderWithDetailsResponse> orderMap = new LinkedHashMap<>();
-
-    // Obtener o crear la orden proveedor si no existe en el mapa
-    supplierOrders.forEach(projection -> {
-      Long orderId = projection.getOrderId();
-      SupplierOrderWithDetailsResponse orderResponse = orderMap.computeIfAbsent(orderId, id -> {
-        SupplierOrderWithDetailsResponse response = new SupplierOrderWithDetailsResponse();
-        response.setId(id);
-        response.setDate(projection.getDate());
-        response.setStatus(projection.getStatus());
-        response.setTotalAmount(projection.getTotalAmount());
-        response.setProducts(new ArrayList<>());
-        return response;
-      });
-
-      // Crear el producto de la orden proveedor y agregarlo a la lista de productos
-      SupplierOrderProductResponse productResponse = new SupplierOrderProductResponse();
-      productResponse.setName(projection.getProduct());
-      productResponse.setUnitPrice(projection.getPrice());
-      productResponse.setQuantity(projection.getQuantity());
-
-      orderResponse.getProducts().add(productResponse);
-    });
-
-    return new ArrayList<>(orderMap.values());
+    return  this.responseOrder(supplierOrders);
   }
 
   @Override
@@ -254,6 +208,7 @@ public class SupplierOrderServiceImpl implements ISupplierOrderService {
     }
   }
 
+  @Transactional
   @Override
   public String updateStatus(Long id, String status) {
     log.info("method updateStatus - implementation {} {}", id, status);
@@ -265,9 +220,18 @@ public class SupplierOrderServiceImpl implements ISupplierOrderService {
     SupplierOrderEntity orderOptional = supplierOrderRepository.findById(id)
       .orElseThrow(() -> new ResourceNotFoundException("The order was not found."));
 
+    if( !(orderOptional.getStatus().equals(OrderStatus.PENDING.name()))) {
+      throw new IllegalArgumentException("You are only allowed to update the status of pending orders.");
+    }
+
     try {
       orderOptional.setStatus(status);
-      supplierOrderRepository.save(orderOptional);
+      SupplierOrderEntity supplierOrderEntity= supplierOrderRepository.save(orderOptional);
+
+      // TODO: Se va a actualizar el inventario
+      if(supplierOrderEntity.getStatus().equals(OrderStatus.COMPLETED.name())) {
+        this.inventoryService.update(supplierOrderEntity.getProducts());
+      }
 
       return "Status updated successfully";
     } catch (DataAccessException e) {
@@ -292,5 +256,34 @@ public class SupplierOrderServiceImpl implements ISupplierOrderService {
       log.info("An error occurred while deleting the order {}", e.getMessage());
       throw new InternalServerException(Message.DELETE_ERROR, e);
     }
+  }
+
+  private List<SupplierOrderWithDetailsResponse> responseOrder(List<ISupplierOrderWithDetailsResponse> providerOrders) {
+    Map<Long, SupplierOrderWithDetailsResponse> orderMap = new LinkedHashMap<>();
+
+    // Obtener o crear la orden proveedor si no existe en el mapa
+    providerOrders.forEach(projection -> {
+      Long orderId = projection.getOrderId();
+
+      SupplierOrderWithDetailsResponse orderResponse = orderMap.computeIfAbsent(orderId, id -> {
+        SupplierOrderWithDetailsResponse response = new SupplierOrderWithDetailsResponse();
+        response.setId(id);
+        response.setDate(projection.getDate());
+        response.setStatus(projection.getStatus());
+        response.setTotalAmount(projection.getTotalAmount());
+        response.setProducts(new ArrayList<>());
+        return response;
+      });
+
+      // Crear el producto de la orden proveedor y agregarlo a la lista de productos
+      SupplierOrderProductResponse productResponse = new SupplierOrderProductResponse();
+      productResponse.setName(projection.getProduct());
+      productResponse.setUnitPrice(projection.getPrice());
+      productResponse.setQuantity(projection.getQuantity());
+
+      orderResponse.getProducts().add(productResponse);
+    });
+
+    return new ArrayList<>(orderMap.values());
   }
 }

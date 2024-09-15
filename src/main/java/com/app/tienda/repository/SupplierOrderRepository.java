@@ -2,9 +2,7 @@ package com.app.tienda.repository;
 
 import com.app.tienda.constant.Querys;
 import com.app.tienda.entity.SupplierOrderEntity;
-import com.app.tienda.model.response.IProductResponse;
 import com.app.tienda.model.response.ISupplierOrderWithDetailsResponse;
-import com.app.tienda.model.response.SupplierOrderWithDetailsResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
