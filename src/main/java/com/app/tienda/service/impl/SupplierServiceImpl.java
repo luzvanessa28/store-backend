@@ -80,10 +80,10 @@ public class SupplierServiceImpl implements ISupplierService {
   public List<SupplierResponse> getByName(String name) {
     log.info("getByName impl {}", name);
 
-    List<SupplierEntity> supplierName = supplierRepository.findByName(name);
-    log.info("getByName impl supplierName {}", supplierName);
+    List<SupplierEntity> suppliersList = supplierRepository.findByName(name);
+    log.info("getByName impl supplierName {}", suppliersList);
 
-    return supplierName.stream().
+    return suppliersList.stream().
       map(supplierEntity -> modelMapper.map(supplierEntity, SupplierResponse.class))
       .collect(Collectors.toList());
   }
@@ -145,11 +145,12 @@ public class SupplierServiceImpl implements ISupplierService {
 
       } else {
         log.info("The supplier was not found");
+
         throw new ResourceNotFoundException(Message.ID_NOT_FOUND + ": " + id);
       }
     } catch (DataAccessException e) {
       log.info("Se produjo un error al eliminar al proveedor", e.getMessage());
-      throw new InternalServerException(Message.DELETE_ERROR + "al proveedor", e);
+      throw new InternalServerException(Message.DELETE_ERROR + " al proveedor", e);
     }
   }
 }
