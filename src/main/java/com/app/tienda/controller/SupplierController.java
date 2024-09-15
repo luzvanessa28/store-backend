@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/supplier")
+@RequestMapping("/api/v1/suppliers")
 public class SupplierController {
   @Autowired
   private ISupplierService supplierService;
