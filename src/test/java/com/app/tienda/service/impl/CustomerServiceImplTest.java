@@ -193,4 +193,22 @@ class CustomerServiceImplTest {
     assertEquals(1, customersResponse.size());
   }
 
+  @Test
+  void update() {
+    CustomerEntity customerEntity = new CustomerEntity();
+    customerEntity.setId(2L);
+    customerEntity.setName("Jane");
+    customerEntity.setPhone("9876543210");
+    customerEntity.setEmail("jane@gmail.com");
+
+    CustomerRequest customerRequest = new CustomerRequest();
+    customerRequest.setName("Jane");
+    customerRequest.setPhone("5432101525");
+    customerRequest.setEmail("jane@gmail.com");
+
+    when(customerRepository.findById(4L)).thenReturn(Optional.of(customerEntity));
+
+    customerService.update(4L, customerRequest);
+  }
+
 }
