@@ -231,4 +231,19 @@ class CustomerServiceImplTest {
     });
   }
 
+  @Test
+  @DisplayName("Should delete customer by ID when customer exists")
+  void delete() {
+    CustomerEntity customerEntity = new CustomerEntity();
+    customerEntity.setId(5L);
+    customerEntity.setName("Ana");
+    customerEntity.setEmail("ana@gmail.com");
+
+    when(customerRepository.findById(5L)).thenReturn(Optional.of(customerEntity));
+
+    customerService.delete(5L);
+
+    verify(customerRepository, times(1)).delete(any());
+  }
+
 }
