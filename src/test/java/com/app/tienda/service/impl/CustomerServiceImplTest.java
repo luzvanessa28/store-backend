@@ -21,6 +21,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -123,4 +124,26 @@ class CustomerServiceImplTest {
     });
   }
 
-}
+    @Test
+    void getByIdSuccess() {
+      CustomerEntity customerEntity = new CustomerEntity();
+      customerEntity.setId(1L);
+      customerEntity.setName("John Doe");
+
+      // Configura otros campos si es necesario
+      CustomerResponse customerResponse = new CustomerResponse();
+      customerResponse.setId(1L);
+      customerResponse.setName("John Doe");
+
+      // Configurar el comportamiento simulado de customerRepository.findById
+      when(customerRepository.findById(3L)).thenReturn(Optional.of(customerEntity));
+      when(modelMapper.map(customerEntity, CustomerResponse.class)).thenReturn(customerResponse);
+
+      // Llamar al método que estamos probando
+      CustomerResponse response = this.customerService.getById(3L);
+
+      // Verificar el resultado
+      assertNotNull(response);
+    }
+
+  }
