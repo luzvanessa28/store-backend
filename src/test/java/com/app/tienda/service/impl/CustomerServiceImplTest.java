@@ -211,4 +211,24 @@ class CustomerServiceImplTest {
     customerService.update(4L, customerRequest);
   }
 
+  @Test
+  @DisplayName("An exception is thrown when trying to update a non-existent client.")
+  void updateNonExistentCustomer() {
+
+    CustomerRequest customerRequest = new CustomerRequest();
+    customerRequest.setName("Jane");
+    customerRequest.setPhone("5432101525");
+    customerRequest.setEmail("jane@gmail.com");
+
+    // Ejecutar la prueba y verificar el comportamiento esperado
+    InternalServerException exception = assertThrows(InternalServerException.class, () -> {
+      customerService.update(2L, customerRequest);
+    });
+
+    //el primer argumento es lo que espero obtener y el segundo es la excepcion que obtuve.
+    assertThrows(InternalServerException.class, () -> {
+      customerService.update(0L, customerRequest);
+    });
+  }
+
 }
