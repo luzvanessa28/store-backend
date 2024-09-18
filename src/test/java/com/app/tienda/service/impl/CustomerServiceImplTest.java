@@ -3,12 +3,14 @@ package com.app.tienda.service.impl;
 
 import com.app.tienda.entity.AddressEntity;
 import com.app.tienda.entity.CustomerEntity;
+import com.app.tienda.exception.InternalServerException;
 import com.app.tienda.model.request.AddressRequest;
 import com.app.tienda.model.request.CustomerRequest;
 import com.app.tienda.model.response.CustomerResponse;
 import com.app.tienda.repository.AddressRepository;
 import com.app.tienda.repository.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -82,4 +84,33 @@ class CustomerServiceImplTest {
     log.info("Customer: {}", response);
     assertNotNull(response);
   }
+
+  @Test
+  @DisplayName("Throws the exception InternalServerException when an error occurs while creating the customer")
+  void saveError() {
+    CustomerRequest customerRequestError = new CustomerRequest();
+    customerRequestError.setName("Customer");
+    customerRequestError.setPhone("1234567890");
+    customerRequestError.setEmail("customer@example.com");
+    customerRequestError.setGender("F");
+
+    AddressRequest addressRequest = new AddressRequest();
+    addressRequest.setStreet("Street 1");
+    addressRequest.setCity("City 1");
+    addressRequest.setMz("2");
+    addressRequest.setLt("3");
+    addressRequest.setDelegation("Delegation");
+    customerRequestError.setAddress(addressRequest);
+
+    when(addressRepository.save(any(AddressEntity.class))).thenThrow(new RuntimeException("Error saving address"));
+
+    // Ejecutar la prueba y verificar el comportamiento esperado
+    InternalServerException exception = assertThrows(InternalServerException.class, () -> {
+      customerService.save(customerRequestError);
+    });
+
+    // Verificar que el mensaje de la excepción es el esperado
+    assertEquals("Hubo un error al crear el cliente", exception.getMessage());
+  }
+
 }
