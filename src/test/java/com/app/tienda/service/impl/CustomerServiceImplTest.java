@@ -124,8 +124,8 @@ class CustomerServiceImplTest {
     });
   }
 
-    @Test
-    void getByIdSuccess() {
+  @Test
+  void getByIdSuccess() {
       CustomerEntity customerEntity = new CustomerEntity();
       customerEntity.setId(1L);
       customerEntity.setName("John Doe");
@@ -160,6 +160,21 @@ class CustomerServiceImplTest {
 
     assertNotNull(customers);
     assertEquals(1, customers.size());
+  }
+
+
+  @Test
+  @DisplayName("Returns a list of customers from the specified city")
+  void getByCity() {
+    List<CustomerEntity> customers = new ArrayList<CustomerEntity>();
+    CustomerEntity customerEntity = new CustomerEntity();
+    customerEntity.setId(3L);
+    customerEntity.setName("Jane");
+    customers.add(customerEntity);
+
+    when(customerRepository.findByAddressCity("Oaxaca")).thenReturn(customers);
+
+    List<CustomerResponse> customersResponse = customerService.getByCity("Oaxaca");
   }
 
 }
