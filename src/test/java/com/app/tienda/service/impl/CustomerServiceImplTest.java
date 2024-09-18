@@ -246,4 +246,14 @@ class CustomerServiceImplTest {
     verify(customerRepository, times(1)).delete(any());
   }
 
+  @Test
+  @DisplayName("Logs info and throws ResourceNotFoundException when customer is not found")
+  void customerNotFound() {
+
+    //el primer argumento es lo que espero obtener y el segundo es la excepcion que obtuve.
+    assertThrows(InternalServerException.class, () -> {
+      customerService.delete(4L);
+    });
+  }
+
 }
