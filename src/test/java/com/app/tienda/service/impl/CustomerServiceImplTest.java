@@ -41,7 +41,6 @@ class CustomerServiceImplTest {
   @Mock
   private AddressRepository addressRepository;
 
-
   @InjectMocks
   private CustomerServiceImpl customerService;
 
@@ -255,5 +254,4 @@ class CustomerServiceImplTest {
       customerService.delete(4L);
     });
   }
-
 }
