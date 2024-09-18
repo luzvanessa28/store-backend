@@ -4,6 +4,7 @@ package com.app.tienda.service.impl;
 import com.app.tienda.entity.AddressEntity;
 import com.app.tienda.entity.CustomerEntity;
 import com.app.tienda.exception.InternalServerException;
+import com.app.tienda.exception.ResourceNotFoundException;
 import com.app.tienda.model.request.AddressRequest;
 import com.app.tienda.model.request.CustomerRequest;
 import com.app.tienda.model.response.CustomerResponse;
@@ -111,6 +112,15 @@ class CustomerServiceImplTest {
 
     // Verificar que el mensaje de la excepción es el esperado
     assertEquals("Hubo un error al crear el cliente", exception.getMessage());
+  }
+
+  @Test
+  @DisplayName("Este Test devuelve una excepción si no encuentra un customer")
+  void getById() {
+    // Verificar que se lance la excepción esperada
+    assertThrows(ResourceNotFoundException.class, () -> {
+      customerService.getById(1L);
+    });
   }
 
 }
