@@ -162,7 +162,6 @@ class CustomerServiceImplTest {
     assertEquals(1, customers.size());
   }
 
-
   @Test
   @DisplayName("Returns a list of customers from the specified city")
   void getByCity() {
@@ -175,6 +174,23 @@ class CustomerServiceImplTest {
     when(customerRepository.findByAddressCity("Oaxaca")).thenReturn(customers);
 
     List<CustomerResponse> customersResponse = customerService.getByCity("Oaxaca");
+  }
+
+  @Test
+  @DisplayName("Returns a list of customers from the specified email")
+  void getByEmail() {
+    List<CustomerEntity> customers = new ArrayList<CustomerEntity>();
+    CustomerEntity customerEntity = new CustomerEntity();
+    customerEntity.setId(4L);
+    customerEntity.setName("David");
+    customerEntity.setEmail("david@gmail.com");
+    customers.add(customerEntity);
+
+    when(customerRepository.findByEmail("david@example.com")).thenReturn(customers);
+
+    List<CustomerResponse> customersResponse = this.customerService.getByEmail("david@example.com");
+
+    assertEquals(1, customersResponse.size());
   }
 
 }
