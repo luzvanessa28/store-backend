@@ -146,4 +146,20 @@ class CustomerServiceImplTest {
       assertNotNull(response);
     }
 
+  @Test
+  void getByName() {
+    List<CustomerEntity> customerEntityList = new ArrayList<CustomerEntity>();
+    CustomerEntity customerEntity = new CustomerEntity();
+    customerEntity.setId(2L);
+    customerEntity.setName("Luz");
+    customerEntity.setEmail("luz@gmail.com");
+    customerEntityList.add(customerEntity);
+
+    when(this.customerRepository.findByName("Vanessa")).thenReturn(customerEntityList);
+    List<CustomerResponse> customers = this.customerService.getByName("Vanessa");
+
+    assertNotNull(customers);
+    assertEquals(1, customers.size());
   }
+
+}
