@@ -125,7 +125,7 @@ public class SupplierServiceImpl implements ISupplierService {
         SupplierEntity supplierUpdate = supplierRepository.save(supplierEntity);
         return modelMapper.map(supplierUpdate, SupplierResponse.class);
       } else {
-        throw new ResourceNotFoundException("No se encontró el proveedor con ID: " + id);
+        throw new ResourceNotFoundException(Message.ID_NOT_FOUND);
       }
     } catch (DataAccessException e) {
       log.error("Hubo un error al actualizar el proveedor: {}", e.getMessage());
