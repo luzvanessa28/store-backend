@@ -1,8 +1,10 @@
 package com.app.tienda.service.impl;
 
 
+import com.app.tienda.constant.Message;
 import com.app.tienda.entity.SupplierEntity;
 import com.app.tienda.exception.ResourceNotFoundException;
+import com.app.tienda.model.request.SupplierRequest;
 import com.app.tienda.model.response.SupplierResponse;
 import com.app.tienda.repository.SupplierRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +23,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 /**
@@ -154,5 +156,17 @@ class SupplierServiceImplTest {
     // Verifica que el provider es correcto y es el esperado
     assertEquals(1, response.size());
   }
+
+  @Test
+  void delete() {
+    SupplierEntity supplierEntity = new SupplierEntity();
+    supplierEntity.setId(8L);
+    supplierEntity.setName("Stasy");
+
+    when(supplierRepository.findById(8L)).thenReturn(Optional.of(supplierEntity));
+
+    this.supplierService.delete(8L);
+  }
+
 
 }
