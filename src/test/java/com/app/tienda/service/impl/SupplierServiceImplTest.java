@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -84,5 +83,23 @@ class SupplierServiceImplTest {
       supplierService.getById(1L);
     });
   }
+
+  @Test
+  void getByName() {
+    List<SupplierEntity> supplierList = new ArrayList<SupplierEntity>();
+    SupplierEntity supplierEntity = new SupplierEntity();
+    supplierEntity.setId(2L);
+    supplierEntity.setName("Vanessa");
+    supplierEntity.setEmail("luz@gmail.com");
+    supplierList.add(supplierEntity);
+
+    when(this.supplierRepository.findByName("Vanessa")).thenReturn(supplierList);
+
+    List<SupplierResponse> suppliers = this.supplierService.getByName("Vanessa");
+
+    assertNotNull(suppliers);
+    assertEquals(1, suppliers.size());
+  }
+
 
 }
