@@ -168,5 +168,19 @@ class SupplierServiceImplTest {
     this.supplierService.delete(8L);
   }
 
+  /**
+   * The provider that does not exist is removed.
+   * @throws ResourceNotFoundException supplier not found
+   */
+  @Test
+  @DisplayName("The provider that does not exist is removed.")
+  void supplierNotFound() {
+    ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
+      supplierService.delete(2L);
+    });
 
+    log.info("exception: {}", exception.getMessage());
+
+    assertEquals("The id does not exist: 2", exception.getMessage());
+  }
 }
