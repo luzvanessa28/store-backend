@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -51,6 +52,26 @@ class SupplierServiceImplTest {
     List<SupplierResponse> suppliers = this.supplierService.findAll();
 
     assertEquals(1, suppliers.size());
+  }
+
+  @Test
+  void getByIdSuccess() {
+    SupplierEntity supplierEntity = new SupplierEntity();
+    supplierEntity.setId(4L);
+    supplierEntity.setName("Carlos");
+    supplierEntity.setEmail("carlos@gmail.com");
+
+    SupplierResponse supplierResponse = new SupplierResponse();
+    supplierResponse.setId(4L);
+    supplierResponse.setName("Carlos");
+    supplierResponse.setEmail("carlos@gmail.com");
+
+    when(this.supplierRepository.findById(4L)).thenReturn(Optional.of(supplierEntity));
+    when(modelMapper.map(supplierEntity, SupplierResponse.class)).thenReturn(supplierResponse);
+
+    SupplierResponse response = this.supplierService.getById(4L);
+
+    assertEquals(supplierResponse, response);
   }
 
 }
