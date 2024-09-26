@@ -123,4 +123,36 @@ class SupplierServiceImplTest {
     assertEquals(1, suppliersResponse.size());
   }
 
+
+  @Test
+  @DisplayName("Returns a ProviderResponse when a provider is found by email")
+  void getByEmail() {
+    // Configura la entidad del supplier
+    List <SupplierEntity> suppliers = new ArrayList <SupplierEntity>();
+    SupplierEntity supplierEntity = new SupplierEntity();
+    supplierEntity.setId(4L);
+    supplierEntity.setName("David");
+    supplierEntity.setEmail("david@gmail.com");
+    suppliers.add(supplierEntity);
+
+    // Simula la respuesta del repositorio
+    when(supplierRepository.findByEmail("david@gmail.com")).thenReturn(suppliers);
+
+    // Simula el comportamiento del ModelMapper
+    SupplierResponse supplierResponse = new SupplierResponse();
+    supplierResponse.setId(4L);
+    supplierResponse.setName("David");
+    supplierResponse.setEmail("david@gmail.com");
+
+    when(modelMapper.map(supplierEntity, SupplierResponse.class)).thenReturn(supplierResponse);
+
+    // Llama al método de prueba para buscar un proveedor por email
+    List <SupplierResponse> response = supplierService.getByEmail("david@gmail.com");
+
+    log.info("Response: {}", response);
+    log.info("suppliers {}", suppliers);
+    // Verifica que el provider es correcto y es el esperado
+    assertEquals(1, response.size());
+  }
+
 }
