@@ -101,5 +101,26 @@ class SupplierServiceImplTest {
     assertEquals(1, suppliers.size());
   }
 
+  @Test
+  @DisplayName("Returns a list of providers for the specified city.")
+  void getByCity() {
+    List<SupplierEntity> suppliers = new ArrayList<>();
+    SupplierEntity supplierEntity = new SupplierEntity();
+    supplierEntity.setId(5L);
+    supplierEntity.setName("Melisa");
+    suppliers.add(supplierEntity);
+
+    // Configura el mock para que devuelva la lista de proveedores cuando se busque por ciudad
+    when(supplierRepository.findByAddressCity("Monterrey")).thenReturn(suppliers);
+
+    // Llama al método getByCity del servicio para obtener los proveedores de la ciudad "Monterrey"
+    List<SupplierResponse> suppliersResponse = supplierService.getByCity("Monterrey");
+
+    // Verifica que la lista de respuestas de proveedores no sea nula
+    assertNotNull(suppliersResponse);
+
+    // Verificar que el tamaño de la lista es el esperado
+    assertEquals(1, suppliersResponse.size());
+  }
 
 }
