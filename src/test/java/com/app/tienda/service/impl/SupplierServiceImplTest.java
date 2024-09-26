@@ -53,5 +53,4 @@ class SupplierServiceImplTest {
     assertEquals(1, suppliers.size());
   }
 
-
 }
