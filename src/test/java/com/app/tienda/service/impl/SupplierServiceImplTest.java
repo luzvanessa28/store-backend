@@ -2,9 +2,11 @@ package com.app.tienda.service.impl;
 
 
 import com.app.tienda.entity.SupplierEntity;
+import com.app.tienda.exception.ResourceNotFoundException;
 import com.app.tienda.model.response.SupplierResponse;
 import com.app.tienda.repository.SupplierRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -72,6 +75,14 @@ class SupplierServiceImplTest {
     SupplierResponse response = this.supplierService.getById(4L);
 
     assertEquals(supplierResponse, response);
+  }
+
+  @Test
+  @DisplayName("Should throw ResourceNotFoundException if supplier is not found")
+  void getByIdNotFound() {
+    assertThrows(ResourceNotFoundException.class, () -> {
+      supplierService.getById(1L);
+    });
   }
 
 }
