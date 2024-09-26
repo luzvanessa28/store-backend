@@ -3,6 +3,7 @@ package com.app.tienda.service.impl;
 
 import com.app.tienda.constant.Message;
 import com.app.tienda.entity.SupplierEntity;
+import com.app.tienda.exception.InternalServerException;
 import com.app.tienda.exception.ResourceNotFoundException;
 import com.app.tienda.model.request.SupplierRequest;
 import com.app.tienda.model.response.SupplierResponse;
@@ -15,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.DataAccessException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,4 +185,26 @@ class SupplierServiceImplTest {
 
     assertEquals("The id does not exist: 2", exception.getMessage());
   }
+
+  @Test
+  void supplierDeleteError() {
+    SupplierEntity supplierEntity = new SupplierEntity();
+    supplierEntity.setId(8L);
+    supplierEntity.setName("Stasy");
+
+    when(supplierRepository.findById(8L)).thenReturn(Optional.of(supplierEntity));
+
+    // Simula que ocurre un DataAccessException al intentar eliminar
+    // doThrow solo se utiliza en metodos
+    doThrow(new DataAccessException("Error accessing database") {}).when(supplierRepository).deleteById(any());
+
+    InternalServerException exception = assertThrows(InternalServerException.class, () -> {
+      this.supplierService.delete(8L);
+    });
+
+    log.info("exception: {}", exception.getMessage());
+
+    assertEquals("An error occurred while deleting the supplier", exception.getMessage());
+  }
+
 }
