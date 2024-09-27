@@ -150,7 +150,7 @@ public class SupplierServiceImpl implements ISupplierService {
       }
     } catch (DataAccessException e) {
       log.info("Se produjo un error al eliminar al proveedor", e.getMessage());
-      throw new InternalServerException(Message.DELETE_ERROR + " al proveedor", e);
+      throw new InternalServerException(Message.DELETE_ERROR + " the supplier", e);
     }
   }
 }
