@@ -195,7 +195,7 @@ class CustomerServiceImplTest {
   @Test
   void update() {
     CustomerEntity customerEntity = new CustomerEntity();
-    customerEntity.setId(2L);
+    customerEntity.setId(4L);
     customerEntity.setName("Jane");
     customerEntity.setPhone("9876543210");
     customerEntity.setEmail("jane@gmail.com");
