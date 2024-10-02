@@ -5,6 +5,7 @@ import com.app.tienda.constant.Message;
 import com.app.tienda.entity.SupplierEntity;
 import com.app.tienda.exception.InternalServerException;
 import com.app.tienda.exception.ResourceNotFoundException;
+import com.app.tienda.model.request.AddressRequest;
 import com.app.tienda.model.request.SupplierRequest;
 import com.app.tienda.model.response.SupplierResponse;
 import com.app.tienda.repository.SupplierRepository;
@@ -58,6 +59,28 @@ class SupplierServiceImplTest {
     List<SupplierResponse> suppliers = this.supplierService.findAll();
 
     assertEquals(1, suppliers.size());
+  }
+
+  @Test
+  @DisplayName("Throws the exception InternalServerException when an error occurs while creating the provider")
+  void saveError() {
+    // Simulación de los datos de un nuevo proveedor
+    SupplierRequest supplierRequest = new SupplierRequest();
+    supplierRequest.setName("Daniel");
+    supplierRequest.setPhone("56274067");
+    supplierRequest.setEmail("daniel@gmail.com");
+
+    // Configura la dirección del proveedor
+    AddressRequest addressRequest = new AddressRequest();
+    addressRequest.setStreet("Morelos");
+    addressRequest.setCity("Tlaxiaco");
+    addressRequest.setDelegation("San Diego");
+    supplierRequest.setAddress(addressRequest);
+
+    // Verifica que se lance una InternalServerException al fallar el guardado de la dirección
+    assertThrows(InternalServerException.class, () -> {
+      supplierService.save(supplierRequest);
+    });
   }
 
   @Test
@@ -249,6 +272,6 @@ class SupplierServiceImplTest {
 
     log.info("exception: {}", exception.getMessage());
 
-    assertEquals("An error occurred while deleting the supplier", exception.getMessage());
+    assertEquals("Error deleting the record", exception.getMessage());
   }
 }
