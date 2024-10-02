@@ -127,7 +127,6 @@ class SupplierServiceImplTest {
     assertEquals(1, suppliersResponse.size());
   }
 
-
   @Test
   @DisplayName("Returns a ProviderResponse when a provider is found by email")
   void getByEmail() {
@@ -177,6 +176,33 @@ class SupplierServiceImplTest {
     assertEquals(Message.ID_NOT_FOUND, exception.getMessage());
   }
 
+  @Test
+  void update() {
+    SupplierEntity supplierMock = new SupplierEntity();
+    supplierMock.setId(12L);
+    supplierMock.setName("Luz");
+    supplierMock.setPhone("65436910");
+    supplierMock.setEmail("luz@gmail.com");
+
+    SupplierRequest supplierUpdate = new SupplierRequest();
+    supplierUpdate.setName("Luz");
+    supplierUpdate.setPhone("65436910");
+    supplierUpdate.setEmail("luz@gmail.com");
+
+    SupplierResponse supplierResponseMock = new SupplierResponse();
+    supplierResponseMock.setId(12L);
+    supplierResponseMock.setName("Luz");
+    supplierResponseMock.setPhone("65436910");
+    supplierResponseMock.setEmail("luz@gmail.com");
+
+    when(supplierRepository.findById(12L)).thenReturn(Optional.of(supplierMock));
+    when(modelMapper.map(any(), eq(SupplierResponse.class))).thenReturn(supplierResponseMock);
+
+    SupplierResponse supplierResponse = this.supplierService.update(12L, supplierUpdate);
+    log.info("SupplierResponse {}", supplierResponse);
+
+    assertNotNull(supplierResponse);
+  }
 
   @Test
   void delete() {
@@ -225,5 +251,4 @@ class SupplierServiceImplTest {
 
     assertEquals("An error occurred while deleting the supplier", exception.getMessage());
   }
-
 }
