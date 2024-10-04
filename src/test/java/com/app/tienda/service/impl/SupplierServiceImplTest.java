@@ -281,6 +281,32 @@ class SupplierServiceImplTest {
   }
 
   @Test
+  @DisplayName("Throws InternalServerException when a DataAccessException occurs during supplier update")
+  void updateError() {
+    SupplierRequest supplierRequest = new SupplierRequest();
+    supplierRequest.setName("Stasy");
+    supplierRequest.setPhone("5432101525");
+    supplierRequest.setEmail("stasy@gmail.com");
+
+    // Simula que el proveedor existe en la base de datos
+    SupplierEntity supplierEntity = new SupplierEntity();
+    when(supplierRepository.findById(8L)).thenReturn(Optional.of(supplierEntity));
+
+    // Simula que ocurre un DataAccessException al intentar guardar el proveedor actualizado
+    when(supplierRepository.save(any(SupplierEntity.class))).thenThrow(new DataAccessException("Error accessing database") {});
+
+    // Verifica que se lanza la InternalServerException cuando ocurre un DataAccessException
+    InternalServerException exception = assertThrows(InternalServerException.class, () -> {
+      this.supplierService.update(8L, supplierRequest);
+    });
+
+    log.info("exception: {}", exception.getMessage());
+
+    // Verifica que el mensaje de excepción es correcto
+    assertTrue(exception.getMessage().contains(Message.UPDATE_ERROR));
+  }
+
+  @Test
   void delete() {
     SupplierEntity supplierEntity = new SupplierEntity();
     supplierEntity.setId(8L);
