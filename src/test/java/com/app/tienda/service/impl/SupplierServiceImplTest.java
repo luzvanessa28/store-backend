@@ -235,24 +235,6 @@ class SupplierServiceImplTest {
   }
 
   @Test
-  @DisplayName("An exception is thrown when trying to update a non-existent client.")
-  void updateNonExistentSupplier() {
-    SupplierRequest supplierRequest = new SupplierRequest();
-    supplierRequest.setName("Jane Updated");
-    supplierRequest.setPhone("5432101525");
-    supplierRequest.setEmail("jane_updated@gmail.com");
-
-    // Simulamos que no se encuentra el cliente
-    when(supplierRepository.findById(2L)).thenReturn(Optional.empty());
-
-    ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
-      supplierService.update(2L, supplierRequest);
-    });
-
-    assertEquals(Message.ID_NOT_FOUND, exception.getMessage());
-  }
-
-  @Test
   void update() {
     SupplierEntity supplierMock = new SupplierEntity();
     supplierMock.setId(12L);
@@ -278,6 +260,24 @@ class SupplierServiceImplTest {
     log.info("SupplierResponse {}", supplierResponse);
 
     assertNotNull(supplierResponse);
+  }
+
+  @Test
+  @DisplayName("An exception is thrown when trying to update a non-existent client.")
+  void updateNonExistentSupplier() {
+    SupplierRequest supplierRequest = new SupplierRequest();
+    supplierRequest.setName("Jane Updated");
+    supplierRequest.setPhone("5432101525");
+    supplierRequest.setEmail("jane_updated@gmail.com");
+
+    // Simulamos que no se encuentra el cliente
+    when(supplierRepository.findById(2L)).thenReturn(Optional.empty());
+
+    ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
+      supplierService.update(2L, supplierRequest);
+    });
+
+    assertEquals(Message.ID_NOT_FOUND, exception.getMessage());
   }
 
   @Test
