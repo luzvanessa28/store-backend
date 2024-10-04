@@ -61,7 +61,7 @@ public class SupplierServiceImpl implements ISupplierService {
       return modelMapper.map(saved, SupplierResponse.class);
     } catch (Exception e) {
       log.error("Se produjo un error al guardar al proveedor", e.getMessage());
-      throw new InternalServerException(Message.SAVE_ERROR + "al proveedor", e);
+      throw new InternalServerException(Message.SAVE_ERROR, e);
     }
   }
 
@@ -120,7 +120,7 @@ public class SupplierServiceImpl implements ISupplierService {
 
       if (supplierOptional.isPresent()) {
         SupplierEntity supplierEntity = supplierOptional.get();
-        modelMapper.map(supplierRequest, supplierEntity);
+        //modelMapper.map(supplierRequest, supplierEntity);
 
         SupplierEntity supplierUpdate = supplierRepository.save(supplierEntity);
         return modelMapper.map(supplierUpdate, SupplierResponse.class);
@@ -150,7 +150,7 @@ public class SupplierServiceImpl implements ISupplierService {
       }
     } catch (DataAccessException e) {
       log.info("Se produjo un error al eliminar al proveedor", e.getMessage());
-      throw new InternalServerException(Message.DELETE_ERROR + " the supplier", e);
+      throw new InternalServerException(Message.DELETE_ERROR, e);
     }
   }
 }
