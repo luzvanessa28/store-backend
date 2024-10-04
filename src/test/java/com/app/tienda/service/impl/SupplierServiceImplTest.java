@@ -2,12 +2,14 @@ package com.app.tienda.service.impl;
 
 
 import com.app.tienda.constant.Message;
+import com.app.tienda.entity.AddressEntity;
 import com.app.tienda.entity.SupplierEntity;
 import com.app.tienda.exception.InternalServerException;
 import com.app.tienda.exception.ResourceNotFoundException;
 import com.app.tienda.model.request.AddressRequest;
 import com.app.tienda.model.request.SupplierRequest;
 import com.app.tienda.model.response.SupplierResponse;
+import com.app.tienda.repository.AddressRepository;
 import com.app.tienda.repository.SupplierRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -41,6 +43,9 @@ class SupplierServiceImplTest {
   @Mock
   private ModelMapper modelMapper;
 
+  @Mock
+  private AddressRepository addressRepository;
+
   @InjectMocks
   private SupplierServiceImpl supplierService;
 
@@ -59,6 +64,54 @@ class SupplierServiceImplTest {
     List<SupplierResponse> suppliers = this.supplierService.findAll();
 
     assertEquals(1, suppliers.size());
+  }
+
+  @Test
+  @DisplayName("Save a provider and return a ProviderResponse with the correct data")
+  void save() {
+    // Configura la solicitud del proveedor
+    SupplierRequest supplierRequest = new SupplierRequest();
+    supplierRequest.setName("Daniel");
+    supplierRequest.setPhone("56274067");
+    supplierRequest.setEmail("daniel@gmail.com");
+
+    // Configura la dirección del proveedor
+    AddressRequest addressRequest = new AddressRequest();
+    addressRequest.setStreet("Morelos");
+    addressRequest.setCity("Tlaxiaco");
+    addressRequest.setDelegation("San Diego");
+    supplierRequest.setAddress(addressRequest);
+
+    SupplierResponse supplierResponse = new SupplierResponse();
+    supplierResponse.setName("Daniel");
+    supplierResponse.setPhone("56274067");
+    supplierResponse.setEmail("daniel@gmail.com");
+
+
+    // Crea las entidades necesarias para simular las operaciones
+    SupplierEntity supplierEntity = new SupplierEntity();
+    AddressEntity addressEntity = new AddressEntity();
+    supplierEntity.setAddress(addressEntity);// Asigna la dirección a la entidad del proveedor
+
+    // Simula el mock del modelMapper para convertir el objeto SupplierRequest a un objeto SupplierEntity
+    when(modelMapper.map(any(SupplierRequest.class), eq(SupplierEntity.class))).thenReturn(supplierEntity);
+    // Simula el mock de guardar en el repositorio de dirección
+    when(addressRepository.save(any(AddressEntity.class))).thenReturn(addressEntity);
+
+    // Simula el mock de guardar en el repositorio de proveedores
+    when(supplierRepository.save(any(SupplierEntity.class))).thenReturn(supplierEntity);
+    // Simula el mock del modelMapper para convertir el objeto SupplierEntity a un objeto SupplierResponse
+    when(modelMapper.map(any(SupplierEntity.class), eq(SupplierResponse.class))).thenReturn(supplierResponse);
+
+    // Llama al método save del servicio para guardar la entidad de proveedor
+    SupplierResponse response = this.supplierService.save(supplierRequest);
+
+    // Verifica que la respuesta no sea nula
+    log.info("Supplier: {}", response);
+    assertNotNull(response);
+
+    verify(addressRepository, times(1)).save(any(AddressEntity.class));
+    verify(supplierRepository, times(1)).save(any(SupplierEntity.class));
   }
 
   @Test
