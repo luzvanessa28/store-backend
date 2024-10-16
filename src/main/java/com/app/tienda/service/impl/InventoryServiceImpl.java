@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -24,6 +23,22 @@ public class InventoryServiceImpl implements IInventoryService {
 
   @Override
   public ProductResponse update(List<SupplierOrderProduct> products) {
+    log.info("InventoryServiceImpl.update: {}", products);
+
+    products.stream().forEach(product -> {
+      log.info("product: {}", product);
+
+      InventoryEntity productFound = inventoryRepository.findByProductId(product.getProductId())
+        .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+      InventoryEntity inventory = new InventoryEntity();
+      inventory.setId(productFound.getId());
+      inventory.setProduct(productFound.getProduct());
+      inventory.setStock(product.getQuantity() + productFound.getStock() );
+      inventory.setDate(LocalDate.now());
+      inventoryRepository.save(inventory);
+    });
+
     return null;
   }
 
